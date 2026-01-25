@@ -2,243 +2,370 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Einstellungen | Hannover 96" pageStyles={['preference-center']} footerVariant="minimal">
-    <!-- Hero Section -->
-    <section class="pref-hero">
-        <div class="container">
-            <h1 class="pref-hero__title">Newsletter Einstellungen</h1>
-            <p class="pref-hero__subtitle">Verwalte deine Newsletter-Abonnements und Präferenzen</p>
-        </div>
-    </section>
-
-    <!-- Newsletter Root -->
-    <u-newsletter-root>
+<Layout title="Newsletter verwalten - Hannover 96" activePage="newsletter" pageStyles={['preference-center']}>
+    <main class="main-content">
         <u-config
             base-url="https://hannover96.staging.unidy.de"
             api-key="b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e"
-            locale="de"
-        ></u-config>
+            locale="de">
+        </u-config>
 
-        <!-- Email Section -->
-        <section class="pref-email-section">
-            <div class="container">
-                <div class="pref-email-bar">
-                    <!-- Not Logged In State -->
-                    <u-signin-root>
-                        <div class="pref-email-bar__login">
-                            <div class="pref-email-bar__input-wrapper">
-                                <u-email-field class-name="pref-email-input" name="email" placeholder="Deine E-Mail-Adresse"></u-email-field>
-                                <u-error-message name="email" class-name="pref-error-message"></u-error-message>
-                            </div>
-                            <u-submit-button class-name="pref-submit-btn">Einstellungen laden</u-submit-button>
-                        </div>
-                        <p class="pref-email-bar__alt">
-                            Hast du ein Konto?
-                            <button type="button" class="pref-email-bar__link" onclick="openLoginModal()">Hier anmelden</button>
-                        </p>
-                    </u-signin-root>
-
-                    <!-- Logged In State -->
-                    <u-signed-in>
-                        <div class="pref-email-bar__badge">
-                            <div class="pref-email-bar__badge-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"/>
-                                </svg>
-                            </div>
-                            <div class="pref-email-bar__info">
-                                <span class="pref-email-bar__label">Einstellungen für</span>
-                                <u-field name="email" class-name="pref-email-bar__email" readonly></u-field>
-                            </div>
-                            <u-newsletter-logout-button class-name="pref-email-bar__logout">Andere E-Mail</u-newsletter-logout-button>
-                        </div>
-                    </u-signed-in>
+        <u-newsletter-root class="pref-root">
+            <!-- Hero Section -->
+            <section class="pref-hero">
+                <div class="container">
+                    <h1 class="pref-hero__title">Deine Newsletter-Einstellungen</h1>
+                    <p class="pref-hero__subtitle">
+                        Verwalte hier deine Hannover 96 Newsletter und passe an, welche Inhalte du erhalten möchtest.
+                    </p>
                 </div>
-                <u-error-message class-name="pref-error-general"></u-error-message>
-            </div>
-        </section>
+            </section>
 
-        <!-- Preference Sections -->
-        <main class="pref-sections">
-            <div class="container">
-                <!-- Hannover 96 News Section -->
-                <section class="pref-section">
-                    <div class="pref-section__header">
-                        <div class="pref-section__title-row">
-                            <span class="pref-section__badge">H96</span>
-                            <h2 class="pref-section__title">Hannover 96 News</h2>
-                        </div>
-                        <div class="pref-section__actions">
-                            <u-conditional-render if="newsletter.h96-main.subscribed == false">
-                                <u-newsletter-toggle-subscription-button newsletter-id="h96-main" class-name="pref-section__subscribe">Abonnieren</u-newsletter-toggle-subscription-button>
-                            </u-conditional-render>
-                            <u-conditional-render if="newsletter.h96-main.subscribed == true">
-                                <button type="button" class="pref-section__unsubscribe" onclick="showUnsubscribeModal('h96-main', 'Hannover 96 News')">Abbestellen</button>
-                            </u-conditional-render>
-                        </div>
-                    </div>
-                    <p class="pref-section__description">Wöchentliche Updates zu Transfers, Spielberichten, Interviews und Vereinsnews.</p>
-
-                    <!-- DOI Banner -->
-                    <u-conditional-render if="newsletter.h96-main.doiPending">
-                        <div class="pref-doi-banner">
-                            <span class="pref-doi-banner__icon">📧</span>
-                            <span class="pref-doi-banner__text">Bitte bestätige deine E-Mail-Adresse</span>
-                            <u-newsletter-resend-doi-button newsletter-id="h96-main" class-name="pref-doi-banner__btn">Erneut senden</u-newsletter-resend-doi-button>
-                        </div>
-                    </u-conditional-render>
-
-                    <!-- Preferences -->
-                    <u-conditional-render if="newsletter.h96-main.subscribed == true">
-                        <details class="pref-category" open>
-                            <summary class="pref-category__toggle">
-                                <span class="pref-category__title">Profis</span>
-                                <svg class="pref-category__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"/>
-                                </svg>
-                            </summary>
-                            <div class="pref-category__content">
-                                <div class="pref-item">
-                                    <div class="pref-item__info">
-                                        <span class="pref-item__name">News & Spielberichte</span>
-                                        <p class="pref-item__description">Aktuelle Nachrichten zur ersten Mannschaft</p>
-                                    </div>
-                                    <div class="pref-item__toggle">
-                                        <u-newsletter-preference-checkbox newsletter-id="h96-main" preference-id="news" class-name="pref-toggle"></u-newsletter-preference-checkbox>
-                                    </div>
+            <!-- Email Bar -->
+            <section class="pref-email-section">
+                <div class="container">
+                    <div class="pref-email-bar">
+                        <!-- Logged In State -->
+                        <u-conditional-render when="newsletter.loggedIn">
+                            <div class="pref-email-bar__badge">
+                                <div class="pref-email-bar__badge-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    </svg>
                                 </div>
-                            </div>
-                        </details>
-
-                        <details class="pref-category">
-                            <summary class="pref-category__toggle">
-                                <span class="pref-category__title">Fanshop</span>
-                                <svg class="pref-category__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"/>
-                                </svg>
-                            </summary>
-                            <div class="pref-category__content">
-                                <div class="pref-item">
-                                    <div class="pref-item__info">
-                                        <span class="pref-item__name">Neue Produkte</span>
-                                        <p class="pref-item__description">Infos zu neuen Fanartikeln und Trikots</p>
-                                    </div>
-                                    <div class="pref-item__toggle">
-                                        <u-newsletter-preference-checkbox newsletter-id="h96-main" preference-id="shop" class-name="pref-toggle"></u-newsletter-preference-checkbox>
-                                    </div>
+                                <div class="pref-email-bar__info">
+                                    <span class="pref-email-bar__label">Eingeloggt als</span>
+                                    <u-email-field class-name="pref-email-bar__email" disabled></u-email-field>
                                 </div>
+                                <u-newsletter-logout-button class-name="pref-email-bar__logout">
+                                    Andere E-Mail
+                                </u-newsletter-logout-button>
                             </div>
-                        </details>
+                        </u-conditional-render>
 
-                        <details class="pref-category">
-                            <summary class="pref-category__toggle">
-                                <span class="pref-category__title">Ticketshop</span>
-                                <svg class="pref-category__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"/>
-                                </svg>
-                            </summary>
-                            <div class="pref-category__content">
-                                <div class="pref-item">
-                                    <div class="pref-item__info">
-                                        <span class="pref-item__name">Ticket-Angebote</span>
-                                        <p class="pref-item__description">Infos zu Ticketverkäufen und Sonderaktionen</p>
-                                    </div>
-                                    <div class="pref-item__toggle">
-                                        <u-newsletter-preference-checkbox newsletter-id="h96-main" preference-id="tickets" class-name="pref-toggle"></u-newsletter-preference-checkbox>
-                                    </div>
+                        <!-- Not Logged In State -->
+                        <u-conditional-render when="newsletter.loggedIn" is="false">
+                            <div class="pref-email-bar__login">
+                                <div class="pref-email-bar__input-wrapper">
+                                    <u-email-field placeholder="Deine E-Mail-Adresse" class-name="pref-email-input" for="login"></u-email-field>
+                                    <u-error-message for="email" class-name="pref-error-message"></u-error-message>
                                 </div>
+                                <u-submit-button for="login" text="Anmelden" class-name="pref-submit-btn"></u-submit-button>
                             </div>
-                        </details>
-                    </u-conditional-render>
-                </section>
-
-                <!-- Spieltag Newsletter Section -->
-                <section class="pref-section">
-                    <div class="pref-section__header">
-                        <div class="pref-section__title-row">
-                            <span class="pref-section__badge pref-section__badge--spieltag">ST</span>
-                            <h2 class="pref-section__title">Spieltag Newsletter</h2>
-                        </div>
-                        <div class="pref-section__actions">
-                            <u-conditional-render if="newsletter.spieltag.subscribed == false">
-                                <u-newsletter-toggle-subscription-button newsletter-id="spieltag" class-name="pref-section__subscribe">Abonnieren</u-newsletter-toggle-subscription-button>
-                            </u-conditional-render>
-                            <u-conditional-render if="newsletter.spieltag.subscribed == true">
-                                <button type="button" class="pref-section__unsubscribe" onclick="showUnsubscribeModal('spieltag', 'Spieltag Newsletter')">Abbestellen</button>
-                            </u-conditional-render>
-                        </div>
-                    </div>
-                    <p class="pref-section__description">Aufstellung, Live-Ticker Erinnerung und Ergebnisse vor jedem Spieltag.</p>
-                </section>
-
-                <!-- Fanshop Newsletter Section -->
-                <section class="pref-section">
-                    <div class="pref-section__header">
-                        <div class="pref-section__title-row">
-                            <span class="pref-section__badge pref-section__badge--fanshop">FS</span>
-                            <h2 class="pref-section__title">Fanshop Newsletter</h2>
-                        </div>
-                        <div class="pref-section__actions">
-                            <u-conditional-render if="newsletter.fanshop.subscribed == false">
-                                <u-newsletter-toggle-subscription-button newsletter-id="fanshop" class-name="pref-section__subscribe">Abonnieren</u-newsletter-toggle-subscription-button>
-                            </u-conditional-render>
-                            <u-conditional-render if="newsletter.fanshop.subscribed == true">
-                                <button type="button" class="pref-section__unsubscribe" onclick="showUnsubscribeModal('fanshop', 'Fanshop Newsletter')">Abbestellen</button>
-                            </u-conditional-render>
-                        </div>
-                    </div>
-                    <p class="pref-section__description">Neue Produkte, exklusive Angebote und Rabattaktionen im Fanshop.</p>
-                </section>
-
-                <!-- Footer Section -->
-                <div class="pref-footer-section">
-                    <p class="pref-footer-info">Du kannst deine Einstellungen jederzeit ändern oder dich komplett abmelden.</p>
-                    <div class="pref-footer-legal">
-                        <a href="#">Datenschutzerklärung</a>
-                        <span>|</span>
-                        <a href="#">Impressum</a>
+                            <div class="pref-email-bar__alt">
+                                <span>oder</span>
+                                <a href="/newsletter-subscription" class="pref-email-bar__link">
+                                    Newsletter abonnieren
+                                </a>
+                            </div>
+                        </u-conditional-render>
                     </div>
                 </div>
-            </div>
-        </main>
+            </section>
 
-        <!-- Unsubscribe Confirmation Modal -->
-        <dialog id="unsubscribeModal" class="pref-modal">
-            <div class="pref-modal__content">
-                <h3 class="pref-modal__title">Newsletter abbestellen?</h3>
-                <p class="pref-modal__text" id="unsubscribeModalText">Möchtest du den Newsletter wirklich abbestellen?</p>
-                <div class="pref-modal__actions">
-                    <button type="button" class="pref-modal__cancel" onclick="closeUnsubscribeModal()">Abbrechen</button>
-                    <u-newsletter-toggle-subscription-button id="unsubscribeModalBtn" class-name="pref-modal__confirm">Abbestellen</u-newsletter-toggle-subscription-button>
+            <u-error-message for="general" class-name="pref-error-general"></u-error-message>
+
+            <!-- Preference Sections (Only when logged in) -->
+            <u-conditional-render when="newsletter.loggedIn">
+                <div class="pref-sections">
+                    <div class="container">
+                        <!-- H96 News -->
+                        <section class="pref-section">
+                            <div class="pref-section__header">
+                                <div class="pref-section__title-row">
+                                    <span class="pref-section__badge">H96</span>
+                                    <h2 class="pref-section__title">Hannover 96 News</h2>
+                                </div>
+                                <div class="pref-section__actions">
+                                    <u-conditional-render when="newsletter.subscribed" is="main">
+                                        <button type="button" class="pref-section__unsubscribe" data-open-modal="modal-main">
+                                            Abbestellen
+                                        </button>
+                                    </u-conditional-render>
+                                    <u-conditional-render when="newsletter.subscribed" is="main" not>
+                                        <u-newsletter-toggle-subscription-button internal-name="main" class-name="pref-section__subscribe">
+                                        </u-newsletter-toggle-subscription-button>
+                                    </u-conditional-render>
+                                </div>
+                            </div>
+
+                            <p class="pref-section__description">
+                                Alle News rund um Hannover 96: Spielberichte, Transfers, Interviews und mehr.
+                                Wöchentlich in deinem Postfach.
+                            </p>
+
+                            <!-- DOI Banner -->
+                            <u-conditional-render when="newsletter.subscribed" is="main">
+                                <u-conditional-render when="newsletter.confirmed" is="main" not>
+                                    <div class="pref-doi-banner">
+                                        <span class="pref-doi-banner__icon">&#x2709;</span>
+                                        <span class="pref-doi-banner__text">Bitte bestätige deine E-Mail-Adresse</span>
+                                        <u-newsletter-resend-doi-button internal-name="main" class-name="pref-doi-banner__btn">
+                                            Erneut senden
+                                        </u-newsletter-resend-doi-button>
+                                    </div>
+                                </u-conditional-render>
+                            </u-conditional-render>
+
+                            <!-- Preferences (only when subscribed) -->
+                            <u-conditional-render when="newsletter.subscribed" is="main">
+                                <details class="pref-category" open>
+                                    <summary class="pref-category__toggle">
+                                        <span class="pref-category__title">Themenpräferenzen</span>
+                                        <span class="pref-category__icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </span>
+                                    </summary>
+                                    <div class="pref-category__content">
+                                        <div class="pref-item">
+                                            <div class="pref-item__info">
+                                                <span class="pref-item__name">Profis</span>
+                                                <p class="pref-item__description">News zur ersten Mannschaft</p>
+                                            </div>
+                                            <div class="pref-item__toggle">
+                                                <u-newsletter-preference-checkbox internal-name="main" preference-identifier="news" class-name="pref-toggle">
+                                                </u-newsletter-preference-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="pref-item">
+                                            <div class="pref-item__info">
+                                                <span class="pref-item__name">Fanshop</span>
+                                                <p class="pref-item__description">Fanshop Neuheiten und Angebote</p>
+                                            </div>
+                                            <div class="pref-item__toggle">
+                                                <u-newsletter-preference-checkbox internal-name="main" preference-identifier="shop" class-name="pref-toggle">
+                                                </u-newsletter-preference-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="pref-item">
+                                            <div class="pref-item__info">
+                                                <span class="pref-item__name">Ticketshop</span>
+                                                <p class="pref-item__description">News zum Ticketshop</p>
+                                            </div>
+                                            <div class="pref-item__toggle">
+                                                <u-newsletter-preference-checkbox internal-name="main" preference-identifier="tickets" class-name="pref-toggle">
+                                                </u-newsletter-preference-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </details>
+                            </u-conditional-render>
+                        </section>
+
+                        <!-- Spieltag Newsletter -->
+                        <section class="pref-section pref-section--compact">
+                            <div class="pref-section__header">
+                                <div class="pref-section__title-row">
+                                    <span class="pref-section__badge pref-section__badge--spieltag">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <polyline points="12 6 12 12 16 14"/>
+                                        </svg>
+                                    </span>
+                                    <h2 class="pref-section__title">Spieltag Newsletter</h2>
+                                </div>
+                                <div class="pref-section__actions">
+                                    <u-conditional-render when="newsletter.subscribed" is="spieltag">
+                                        <button type="button" class="pref-section__unsubscribe" data-open-modal="modal-spieltag">
+                                            Abbestellen
+                                        </button>
+                                    </u-conditional-render>
+                                    <u-conditional-render when="newsletter.subscribed" is="spieltag" not>
+                                        <u-newsletter-toggle-subscription-button internal-name="spieltag" class-name="pref-section__subscribe">
+                                        </u-newsletter-toggle-subscription-button>
+                                    </u-conditional-render>
+                                </div>
+                            </div>
+
+                            <p class="pref-section__description">
+                                Aufstellungen, Live-Ticker & Ergebnisse zu jedem Heimspiel in der HDI-Arena.
+                            </p>
+
+                            <!-- DOI Banner -->
+                            <u-conditional-render when="newsletter.subscribed" is="spieltag">
+                                <u-conditional-render when="newsletter.confirmed" is="spieltag" not>
+                                    <div class="pref-doi-banner">
+                                        <span class="pref-doi-banner__icon">&#x2709;</span>
+                                        <span class="pref-doi-banner__text">Bitte bestätige deine E-Mail-Adresse</span>
+                                        <u-newsletter-resend-doi-button internal-name="spieltag" class-name="pref-doi-banner__btn">
+                                            Erneut senden
+                                        </u-newsletter-resend-doi-button>
+                                    </div>
+                                </u-conditional-render>
+                            </u-conditional-render>
+                        </section>
+
+                        <!-- Fanshop Newsletter -->
+                        <section class="pref-section pref-section--compact">
+                            <div class="pref-section__header">
+                                <div class="pref-section__title-row">
+                                    <span class="pref-section__badge pref-section__badge--fanshop">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M6 6h15l-1.5 9h-12z"/>
+                                            <circle cx="9" cy="20" r="1"/>
+                                            <circle cx="18" cy="20" r="1"/>
+                                            <path d="M6 6L5 2H2"/>
+                                        </svg>
+                                    </span>
+                                    <h2 class="pref-section__title">Fanshop Newsletter</h2>
+                                </div>
+                                <div class="pref-section__actions">
+                                    <u-conditional-render when="newsletter.subscribed" is="fanshop">
+                                        <button type="button" class="pref-section__unsubscribe" data-open-modal="modal-fanshop">
+                                            Abbestellen
+                                        </button>
+                                    </u-conditional-render>
+                                    <u-conditional-render when="newsletter.subscribed" is="fanshop" not>
+                                        <u-newsletter-toggle-subscription-button internal-name="fanshop" class-name="pref-section__subscribe">
+                                        </u-newsletter-toggle-subscription-button>
+                                    </u-conditional-render>
+                                </div>
+                            </div>
+
+                            <p class="pref-section__description">
+                                Neue Produkte, exklusive Angebote & Rabattaktionen aus dem offiziellen Fanshop.
+                            </p>
+
+                            <!-- DOI Banner -->
+                            <u-conditional-render when="newsletter.subscribed" is="fanshop">
+                                <u-conditional-render when="newsletter.confirmed" is="fanshop" not>
+                                    <div class="pref-doi-banner">
+                                        <span class="pref-doi-banner__icon">&#x2709;</span>
+                                        <span class="pref-doi-banner__text">Bitte bestätige deine E-Mail-Adresse</span>
+                                        <u-newsletter-resend-doi-button internal-name="fanshop" class-name="pref-doi-banner__btn">
+                                            Erneut senden
+                                        </u-newsletter-resend-doi-button>
+                                    </div>
+                                </u-conditional-render>
+                            </u-conditional-render>
+                        </section>
+
+                        <!-- Footer Info -->
+                        <div class="pref-footer-section">
+                            <p class="pref-footer-info">
+                                Du kannst deine Einstellungen jederzeit ändern oder Newsletter abbestellen.
+                            </p>
+                            <div class="pref-footer-legal">
+                                <a href="#">Datenschutz</a>
+                                <span>&bull;</span>
+                                <a href="#">Impressum</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </u-conditional-render>
+
+            <!-- Not Logged In - Prompt -->
+            <u-conditional-render when="newsletter.loggedIn" is="false">
+                <section class="pref-login-prompt">
+                    <div class="container">
+                        <div class="pref-login-prompt__card">
+                            <div class="pref-login-prompt__icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </div>
+                            <h2 class="pref-login-prompt__title">Newsletter verwalten</h2>
+                            <p class="pref-login-prompt__text">
+                                Gib deine E-Mail-Adresse oben ein, um deine Newsletter-Einstellungen zu verwalten.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </u-conditional-render>
+        </u-newsletter-root>
+    </main>
+
+    <!-- Modals -->
+    <dialog id="modal-main" class="pref-modal">
+        <div class="pref-modal__content">
+            <h3 class="pref-modal__title">Newsletter abbestellen?</h3>
+            <div class="pref-modal__text">
+                <p>Möchtest du den <strong>Hannover 96 News</strong> Newsletter wirklich abbestellen?</p>
+                <p>Du wirst keine Updates mehr zu Spielberichten, Transfers und Interviews erhalten.</p>
             </div>
-        </dialog>
-    </u-newsletter-root>
+            <div class="pref-modal__actions">
+                <button type="button" class="pref-modal__cancel" data-close-modal>Abbrechen</button>
+                <u-newsletter-toggle-subscription-button internal-name="main" class-name="pref-modal__confirm">
+                </u-newsletter-toggle-subscription-button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modal-spieltag" class="pref-modal">
+        <div class="pref-modal__content">
+            <h3 class="pref-modal__title">Newsletter abbestellen?</h3>
+            <div class="pref-modal__text">
+                <p>Möchtest du den <strong>Spieltag Newsletter</strong> wirklich abbestellen?</p>
+                <p>Du wirst keine Aufstellungen und Live-Ticker mehr erhalten.</p>
+            </div>
+            <div class="pref-modal__actions">
+                <button type="button" class="pref-modal__cancel" data-close-modal>Abbrechen</button>
+                <u-newsletter-toggle-subscription-button internal-name="spieltag" class-name="pref-modal__confirm">
+                </u-newsletter-toggle-subscription-button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modal-fanshop" class="pref-modal">
+        <div class="pref-modal__content">
+            <h3 class="pref-modal__title">Newsletter abbestellen?</h3>
+            <div class="pref-modal__text">
+                <p>Möchtest du den <strong>Fanshop Newsletter</strong> wirklich abbestellen?</p>
+                <p>Du wirst keine Produktneuheiten und Angebote mehr erhalten.</p>
+            </div>
+            <div class="pref-modal__actions">
+                <button type="button" class="pref-modal__cancel" data-close-modal>Abbrechen</button>
+                <u-newsletter-toggle-subscription-button internal-name="fanshop" class-name="pref-modal__confirm">
+                </u-newsletter-toggle-subscription-button>
+            </div>
+        </div>
+    </dialog>
+
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Open modal
+            document.querySelectorAll('[data-open-modal]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modalId = button.getAttribute('data-open-modal');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.showModal();
+                    }
+                });
+            });
+
+            // Close modal
+            document.querySelectorAll('[data-close-modal]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('dialog');
+                    if (modal) {
+                        modal.close();
+                    }
+                });
+            });
+
+            // Close on backdrop click
+            document.querySelectorAll('.pref-modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.close();
+                    }
+                });
+            });
+
+            // Close modal after unsubscribe action
+            document.querySelectorAll('.pref-modal u-newsletter-toggle-subscription-button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modal = btn.closest('dialog');
+                    if (modal) {
+                        setTimeout(() => modal.close(), 100);
+                    }
+                });
+            });
+        });
+    </script>
 </Layout>
-
-<script is:inline>
-    const unsubscribeModal = document.getElementById('unsubscribeModal');
-    const unsubscribeModalText = document.getElementById('unsubscribeModalText');
-    const unsubscribeModalBtn = document.getElementById('unsubscribeModalBtn');
-
-    function showUnsubscribeModal(newsletterId, newsletterName) {
-        unsubscribeModalText.textContent = `Möchtest du "${newsletterName}" wirklich abbestellen?`;
-        unsubscribeModalBtn.setAttribute('newsletter-id', newsletterId);
-        unsubscribeModal.showModal();
-    }
-
-    function closeUnsubscribeModal() {
-        unsubscribeModal.close();
-    }
-
-    // Close modal when clicking backdrop
-    unsubscribeModal?.addEventListener('click', (e) => {
-        if (e.target === unsubscribeModal) {
-            closeUnsubscribeModal();
-        }
-    });
-
-    // Make functions globally available
-    window.showUnsubscribeModal = showUnsubscribeModal;
-    window.closeUnsubscribeModal = closeUnsubscribeModal;
-</script>

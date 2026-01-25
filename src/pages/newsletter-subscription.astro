@@ -2,187 +2,313 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Newsletter | Hannover 96" activePage="newsletter" pageStyles={['newsletter-subscription']} footerVariant="minimal">
-    <!-- Hero Section -->
-    <section class="newsletter-hero">
-        <div class="container">
-            <h1 class="newsletter-hero__title">Hannover 96 Newsletter</h1>
-            <p class="newsletter-hero__subtitle">Bleib auf dem Laufenden mit den neuesten News, Spieltag-Infos und exklusiven Angeboten.</p>
-        </div>
-    </section>
-
-    <!-- Newsletter Root -->
-    <u-newsletter-root>
+<Layout title="Newsletter abonnieren - Hannover 96" activePage="newsletter" pageStyles={['newsletter-subscription']}>
+    <main class="main-content">
         <u-config
             base-url="https://hannover96.staging.unidy.de"
             api-key="b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e"
-            locale="de"
-        ></u-config>
+            locale="de">
+        </u-config>
 
-        <!-- Action Bar -->
-        <section class="newsletter-action-bar">
+        <!-- Hero Section -->
+        <section class="newsletter-hero">
             <div class="container">
-                <!-- Not Logged In State -->
-                <u-signin-root>
-                    <div class="action-bar-card">
-                        <div class="action-bar-content">
-                            <div class="action-bar-input-group">
-                                <div class="action-bar-input-wrapper">
-                                    <u-email-field class-name="action-bar-input" name="email" placeholder="Deine E-Mail-Adresse" id="newsletterEmail"></u-email-field>
-                                    <u-error-message name="email" class-name="action-bar-error"></u-error-message>
-                                </div>
-                                <u-submit-button class-name="btn-action-primary">Newsletter abonnieren</u-submit-button>
-                            </div>
-                        </div>
-                        <div class="action-bar-footer">
-                            <p class="action-bar-legal">
-                                Mit der Anmeldung akzeptierst du unsere <a href="#">Datenschutzerklärung</a>
-                            </p>
-                            <button type="button" class="action-bar-login-link" onclick="openLoginModal()">Bereits registriert? Hier anmelden</button>
-                        </div>
-                    </div>
-                </u-signin-root>
-
-                <!-- Logged In State -->
-                <u-signed-in>
-                    <div class="action-bar-card action-bar-card--success">
-                        <div class="action-bar-content">
-                            <div class="action-bar-user">
-                                <div class="action-bar-icon action-bar-icon--success">96</div>
-                                <div class="action-bar-user-info">
-                                    <span class="action-bar-label">Angemeldet als</span>
-                                    <u-field name="email" class-name="action-bar-email" readonly></u-field>
-                                </div>
-                            </div>
-                            <div class="action-bar-actions">
-                                <u-newsletter-logout-button class-name="btn-action-secondary">Ausloggen</u-newsletter-logout-button>
-                            </div>
-                        </div>
-                        <p class="action-bar-hint">Wähle unten die Newsletter aus, die du erhalten möchtest</p>
-                    </div>
-                </u-signed-in>
+                <h1 class="newsletter-hero__title">Die Hannover 96 Newsletter direkt ins Postfach!</h1>
+                <p class="newsletter-hero__subtitle">
+                    Abonniere unsere kostenlosen Newsletter und verpasse keine News,
+                    Spielberichte und exklusive Aktionen rund um Hannover 96.
+                </p>
             </div>
         </section>
 
-        <!-- Newsletter Selection -->
-        <main class="newsletter-selection">
-            <div class="container">
-                <h2 class="section-title">Wähle deine Newsletter</h2>
-                <p class="section-subtitle">Entscheide selbst, welche Informationen du erhalten möchtest</p>
-
-                <!-- Featured Newsletter: Hannover 96 Newsletter -->
-                <div class="newsletter-featured">
-                    <div class="newsletter-card">
-                        <div class="newsletter-card__header">
-                            <div class="newsletter-card__icon-badge">H96</div>
-                            <div class="newsletter-card__info">
-                                <h3 class="newsletter-card__title">Hannover 96 Newsletter</h3>
-                                <p class="newsletter-card__description">Alle News rund um Hannover 96: Transfers, Interviews, Hintergründe und mehr</p>
-                                <span class="newsletter-card__frequency">Wöchentlich</span>
+        <u-newsletter-root>
+            <!-- Action Bar (Sticky) -->
+            <section class="newsletter-action-bar">
+                <div class="container">
+                    <!-- Logged In State -->
+                    <u-conditional-render when="newsletter.loggedIn">
+                        <div class="action-bar-card action-bar-card--success">
+                            <div class="action-bar-content">
+                                <div class="action-bar-user">
+                                    <span class="action-bar-icon action-bar-icon--success">&#x2713;</span>
+                                    <div class="action-bar-user-info">
+                                        <span class="action-bar-label">Eingeloggt als</span>
+                                        <u-email-field class-name="action-bar-email" disabled></u-email-field>
+                                    </div>
+                                </div>
+                                <div class="action-bar-actions">
+                                    <u-newsletter-logout-button class-name="btn-action-secondary">
+                                        Andere E-Mail verwenden
+                                    </u-newsletter-logout-button>
+                                </div>
                             </div>
-                            <u-newsletter-toggle-subscription-button newsletter-id="h96-main" class-name="toggle-btn toggle-btn--subscribe" subscribed-class-name="toggle-btn--unsubscribe">
-                                <span slot="subscribe">Abonnieren</span>
-                                <span slot="unsubscribe">Abbestellen</span>
-                            </u-newsletter-toggle-subscription-button>
+                            <p class="action-bar-hint">
+                                Verwalte unten deine Newsletter-Abonnements. Änderungen werden automatisch gespeichert.
+                            </p>
                         </div>
-                        <u-error-message name="h96-main" class-name="newsletter-card__error"></u-error-message>
+                    </u-conditional-render>
 
-                        <!-- DOI Banner -->
-                        <u-conditional-render if="newsletter.h96-main.doiPending">
-                            <div class="doi-banner">
-                                <span class="doi-banner__text">Bitte bestätige deine E-Mail-Adresse</span>
-                                <u-newsletter-resend-doi-button newsletter-id="h96-main" class-name="doi-banner__btn">Erneut senden</u-newsletter-resend-doi-button>
+                    <!-- Not Logged In State -->
+                    <u-conditional-render when="newsletter.loggedIn" not>
+                        <div class="action-bar-card">
+                            <div class="action-bar-content">
+                                <div class="action-bar-input-group">
+                                    <div class="action-bar-input-wrapper">
+                                        <u-email-field placeholder="E-Mail-Adresse eingeben" class-name="action-bar-input"></u-email-field>
+                                    </div>
+                                    <u-submit-button class-name="btn-action-primary">
+                                        Jetzt abonnieren
+                                    </u-submit-button>
+                                </div>
+                                <u-error-message for="email" class-name="action-bar-error"></u-error-message>
+                                <u-error-message for="general" class-name="action-bar-error"></u-error-message>
                             </div>
-                        </u-conditional-render>
 
-                        <!-- Preferences -->
-                        <div class="newsletter-card__preferences">
-                            <span class="preferences-label">Themen auswählen:</span>
-                            <div class="preferences-list">
-                                <label class="preference-chip">
-                                    <u-newsletter-preference-checkbox newsletter-id="h96-main" preference-id="news" class-name="preference-input"></u-newsletter-preference-checkbox>
-                                    <span class="preference-chip__label">News</span>
-                                </label>
-                                <label class="preference-chip">
-                                    <u-newsletter-preference-checkbox newsletter-id="h96-main" preference-id="transfers" class-name="preference-input"></u-newsletter-preference-checkbox>
-                                    <span class="preference-chip__label">Transfers</span>
-                                </label>
+                            <div class="action-bar-footer">
+                                <p class="action-bar-legal">
+                                    Mit dem Absenden stimmst du unserer <a href="#">Datenschutzerklärung</a> zu.
+                                </p>
+                                <u-conditional-render when="newsletter.hasEmail">
+                                    <u-submit-button for="login" class-name="action-bar-login-link">
+                                        Bereits abonniert? Klicke hier zur Verwaltung &rarr;
+                                    </u-submit-button>
+                                </u-conditional-render>
                             </div>
+                        </div>
+                    </u-conditional-render>
+                </div>
+            </section>
+
+            <!-- Newsletter Selection -->
+            <section class="newsletter-selection">
+                <div class="container">
+                    <!-- Section Header -->
+                    <u-conditional-render when="newsletter.loggedIn">
+                        <h2 class="section-title">Deine Abonnements</h2>
+                    </u-conditional-render>
+                    <u-conditional-render when="newsletter.loggedIn" not>
+                        <h2 class="section-title">Wähle deine Newsletter</h2>
+                        <p class="section-subtitle">Aktiviere die Newsletter, die dich interessieren. Du kannst deine Auswahl jederzeit ändern.</p>
+                    </u-conditional-render>
+
+                    <!-- Main Newsletter (Featured - Full Width) -->
+                    <div class="newsletter-featured">
+                        <div class="newsletter-card">
+                            <div class="newsletter-card__header">
+                                <div class="newsletter-card__icon-badge">H96</div>
+                                <div class="newsletter-card__info">
+                                    <h3 class="newsletter-card__title">Hannover 96 Newsletter</h3>
+                                    <p class="newsletter-card__description">Alle News rund um Hannover 96: Spielberichte, Transfers und Interviews</p>
+                                    <u-conditional-render when="newsletter.loggedIn" not>
+                                        <span class="newsletter-card__frequency">Wöchentlich</span>
+                                    </u-conditional-render>
+                                </div>
+
+                                <u-conditional-render when="newsletter.loggedIn" not>
+                                    <u-newsletter-checkbox internal-name="main" checked="true" class-name="newsletter-toggle"></u-newsletter-checkbox>
+                                </u-conditional-render>
+
+                                <u-conditional-render when="newsletter.loggedIn">
+                                    <u-newsletter-toggle-subscription-button
+                                        internal-name="main"
+                                        class-name="toggle-btn"
+                                        subscribe-class-name="toggle-btn--subscribe"
+                                        unsubscribe-class-name="toggle-btn--unsubscribe">
+                                    </u-newsletter-toggle-subscription-button>
+                                </u-conditional-render>
+                            </div>
+
+                            <u-error-message for="main" class-name="newsletter-card__error"></u-error-message>
+
+                            <u-conditional-render when="newsletter.loggedIn">
+                                <u-conditional-render when="newsletter.subscribed" is="main">
+                                    <u-conditional-render when="newsletter.confirmed" is="main" not>
+                                        <div class="doi-banner">
+                                            <span class="doi-banner__text">Bitte bestätige deine E-Mail-Adresse</span>
+                                            <u-newsletter-resend-doi-button internal-name="main" class-name="doi-banner__btn">
+                                                Erneut senden
+                                            </u-newsletter-resend-doi-button>
+                                        </div>
+                                    </u-conditional-render>
+                                </u-conditional-render>
+                            </u-conditional-render>
+
+                            <!-- Preferences for Main Newsletter -->
+                            <div class="newsletter-card__preferences">
+                                <span class="preferences-label">Themen auswählen:</span>
+                                <div class="preferences-list">
+                                    <label class="preference-chip">
+                                        <u-conditional-render when="newsletter.loggedIn" not>
+                                            <u-newsletter-preference-checkbox internal-name="main" preference-identifier="news" checked="true" class-name="preference-input"></u-newsletter-preference-checkbox>
+                                        </u-conditional-render>
+                                        <u-conditional-render when="newsletter.loggedIn">
+                                            <u-newsletter-preference-checkbox internal-name="main" preference-identifier="news" class-name="preference-input"></u-newsletter-preference-checkbox>
+                                        </u-conditional-render>
+                                        <span class="preference-chip__label">News</span>
+                                    </label>
+                                    <label class="preference-chip">
+                                        <u-conditional-render when="newsletter.loggedIn" not>
+                                            <u-newsletter-preference-checkbox internal-name="main" preference-identifier="transfers" checked="true" class-name="preference-input"></u-newsletter-preference-checkbox>
+                                        </u-conditional-render>
+                                        <u-conditional-render when="newsletter.loggedIn">
+                                            <u-newsletter-preference-checkbox internal-name="main" preference-identifier="transfers" class-name="preference-input"></u-newsletter-preference-checkbox>
+                                        </u-conditional-render>
+                                        <span class="preference-chip__label">Transfers</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other Newsletters Grid (3 columns) -->
+                    <div class="newsletter-grid">
+                        <!-- Spieltag Newsletter -->
+                        <div class="newsletter-card newsletter-card--compact">
+                            <div class="newsletter-card__header">
+                                <div class="newsletter-card__icon-badge">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                </div>
+                                <div class="newsletter-card__info">
+                                    <h3 class="newsletter-card__title">Spieltag</h3>
+                                    <p class="newsletter-card__description">Aufstellungen, Live-Ticker & Ergebnisse</p>
+                                    <u-conditional-render when="newsletter.loggedIn" not>
+                                        <span class="newsletter-card__frequency">Vor jedem Spiel</span>
+                                    </u-conditional-render>
+                                </div>
+
+                                <u-conditional-render when="newsletter.loggedIn" not>
+                                    <u-newsletter-checkbox internal-name="spieltag" class-name="newsletter-toggle"></u-newsletter-checkbox>
+                                </u-conditional-render>
+
+                                <u-conditional-render when="newsletter.loggedIn">
+                                    <u-newsletter-toggle-subscription-button
+                                        internal-name="spieltag"
+                                        class-name="toggle-btn"
+                                        subscribe-class-name="toggle-btn--subscribe"
+                                        unsubscribe-class-name="toggle-btn--unsubscribe">
+                                    </u-newsletter-toggle-subscription-button>
+                                </u-conditional-render>
+                            </div>
+
+                            <u-error-message for="spieltag" class-name="newsletter-card__error"></u-error-message>
+
+                            <u-conditional-render when="newsletter.loggedIn">
+                                <u-conditional-render when="newsletter.subscribed" is="spieltag">
+                                    <u-conditional-render when="newsletter.confirmed" is="spieltag" not>
+                                        <div class="doi-banner">
+                                            <span class="doi-banner__text">Bitte bestätige deine E-Mail</span>
+                                            <u-newsletter-resend-doi-button internal-name="spieltag" class-name="doi-banner__btn">
+                                                Erneut senden
+                                            </u-newsletter-resend-doi-button>
+                                        </div>
+                                    </u-conditional-render>
+                                </u-conditional-render>
+                            </u-conditional-render>
+                        </div>
+
+                        <!-- Shop Newsletter -->
+                        <div class="newsletter-card newsletter-card--compact">
+                            <div class="newsletter-card__header">
+                                <div class="newsletter-card__icon-badge">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M6 6h15l-1.5 9h-12z"/>
+                                        <circle cx="9" cy="20" r="1"/>
+                                        <circle cx="18" cy="20" r="1"/>
+                                        <path d="M6 6L5 2H2"/>
+                                    </svg>
+                                </div>
+                                <div class="newsletter-card__info">
+                                    <h3 class="newsletter-card__title">Fanshop</h3>
+                                    <p class="newsletter-card__description">Produkte, Angebote & Rabattaktionen</p>
+                                    <u-conditional-render when="newsletter.loggedIn" not>
+                                        <span class="newsletter-card__frequency">2x pro Monat</span>
+                                    </u-conditional-render>
+                                </div>
+
+                                <u-conditional-render when="newsletter.loggedIn" not>
+                                    <u-newsletter-checkbox internal-name="fanshop" class-name="newsletter-toggle"></u-newsletter-checkbox>
+                                </u-conditional-render>
+
+                                <u-conditional-render when="newsletter.loggedIn">
+                                    <u-newsletter-toggle-subscription-button
+                                        internal-name="fanshop"
+                                        class-name="toggle-btn"
+                                        subscribe-class-name="toggle-btn--subscribe"
+                                        unsubscribe-class-name="toggle-btn--unsubscribe">
+                                    </u-newsletter-toggle-subscription-button>
+                                </u-conditional-render>
+                            </div>
+
+                            <u-error-message for="fanshop" class-name="newsletter-card__error"></u-error-message>
+
+                            <u-conditional-render when="newsletter.loggedIn">
+                                <u-conditional-render when="newsletter.subscribed" is="fanshop">
+                                    <u-conditional-render when="newsletter.confirmed" is="fanshop" not>
+                                        <div class="doi-banner">
+                                            <span class="doi-banner__text">Bitte bestätige deine E-Mail</span>
+                                            <u-newsletter-resend-doi-button internal-name="fanshop" class-name="doi-banner__btn">
+                                                Erneut senden
+                                            </u-newsletter-resend-doi-button>
+                                        </div>
+                                    </u-conditional-render>
+                                </u-conditional-render>
+                            </u-conditional-render>
+                        </div>
+
+                        <!-- Membership Newsletter -->
+                        <div class="newsletter-card newsletter-card--compact">
+                            <div class="newsletter-card__header">
+                                <div class="newsletter-card__icon-badge">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="9" cy="7" r="4"/>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                    </svg>
+                                </div>
+                                <div class="newsletter-card__info">
+                                    <h3 class="newsletter-card__title">Mitgliedschaft</h3>
+                                    <p class="newsletter-card__description">Exklusive Infos & Vereinsnachrichten</p>
+                                    <u-conditional-render when="newsletter.loggedIn" not>
+                                        <span class="newsletter-card__frequency">Monatlich</span>
+                                    </u-conditional-render>
+                                </div>
+
+                                <u-conditional-render when="newsletter.loggedIn" not>
+                                    <u-newsletter-checkbox internal-name="membership" class-name="newsletter-toggle"></u-newsletter-checkbox>
+                                </u-conditional-render>
+
+                                <u-conditional-render when="newsletter.loggedIn">
+                                    <u-newsletter-toggle-subscription-button
+                                        internal-name="membership"
+                                        class-name="toggle-btn"
+                                        subscribe-class-name="toggle-btn--subscribe"
+                                        unsubscribe-class-name="toggle-btn--unsubscribe">
+                                    </u-newsletter-toggle-subscription-button>
+                                </u-conditional-render>
+                            </div>
+
+                            <u-error-message for="membership" class-name="newsletter-card__error"></u-error-message>
+
+                            <u-conditional-render when="newsletter.loggedIn">
+                                <u-conditional-render when="newsletter.subscribed" is="membership">
+                                    <u-conditional-render when="newsletter.confirmed" is="membership" not>
+                                        <div class="doi-banner">
+                                            <span class="doi-banner__text">Bitte bestätige deine E-Mail</span>
+                                            <u-newsletter-resend-doi-button internal-name="membership" class-name="doi-banner__btn">
+                                                Erneut senden
+                                            </u-newsletter-resend-doi-button>
+                                        </div>
+                                    </u-conditional-render>
+                                </u-conditional-render>
+                            </u-conditional-render>
                         </div>
                     </div>
                 </div>
-
-                <!-- Other Newsletters Grid -->
-                <div class="newsletter-grid">
-                    <!-- Spieltag Newsletter -->
-                    <div class="newsletter-card newsletter-card--compact">
-                        <div class="newsletter-card__header">
-                            <div class="newsletter-card__icon-badge">ST</div>
-                            <div class="newsletter-card__info">
-                                <h3 class="newsletter-card__title">Spieltag</h3>
-                                <p class="newsletter-card__description">Aufstellung, Live-Ticker Erinnerung & Ergebnisse</p>
-                                <span class="newsletter-card__frequency">Vor jedem Spiel</span>
-                            </div>
-                            <u-newsletter-toggle-subscription-button newsletter-id="spieltag" class-name="toggle-btn toggle-btn--subscribe" subscribed-class-name="toggle-btn--unsubscribe">
-                                <span slot="subscribe">Abonnieren</span>
-                                <span slot="unsubscribe">Abbestellen</span>
-                            </u-newsletter-toggle-subscription-button>
-                        </div>
-                        <u-error-message name="spieltag" class-name="newsletter-card__error"></u-error-message>
-                    </div>
-
-                    <!-- Shop Newsletter -->
-                    <div class="newsletter-card newsletter-card--compact">
-                        <div class="newsletter-card__header">
-                            <div class="newsletter-card__icon-badge">FS</div>
-                            <div class="newsletter-card__info">
-                                <h3 class="newsletter-card__title">Fanshop</h3>
-                                <p class="newsletter-card__description">Neue Produkte, Angebote und exklusive Rabatte</p>
-                                <span class="newsletter-card__frequency">2x monatlich</span>
-                            </div>
-                            <u-newsletter-toggle-subscription-button newsletter-id="fanshop" class-name="toggle-btn toggle-btn--subscribe" subscribed-class-name="toggle-btn--unsubscribe">
-                                <span slot="subscribe">Abonnieren</span>
-                                <span slot="unsubscribe">Abbestellen</span>
-                            </u-newsletter-toggle-subscription-button>
-                        </div>
-                        <u-error-message name="fanshop" class-name="newsletter-card__error"></u-error-message>
-                    </div>
-
-                    <!-- Membership Newsletter -->
-                    <div class="newsletter-card newsletter-card--compact">
-                        <div class="newsletter-card__header">
-                            <div class="newsletter-card__icon-badge">MG</div>
-                            <div class="newsletter-card__info">
-                                <h3 class="newsletter-card__title">Mitglieder</h3>
-                                <p class="newsletter-card__description">Exklusive Infos und Neuigkeiten für Vereinsmitglieder</p>
-                                <span class="newsletter-card__frequency">Monatlich</span>
-                            </div>
-                            <u-newsletter-toggle-subscription-button newsletter-id="members" class-name="toggle-btn toggle-btn--subscribe" subscribed-class-name="toggle-btn--unsubscribe">
-                                <span slot="subscribe">Abonnieren</span>
-                                <span slot="unsubscribe">Abbestellen</span>
-                            </u-newsletter-toggle-subscription-button>
-                        </div>
-                        <u-error-message name="members" class-name="newsletter-card__error"></u-error-message>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </u-newsletter-root>
+            </section>
+        </u-newsletter-root>
+    </main>
 </Layout>
-
-<script is:inline>
-    // Pre-fill email from URL parameter if present
-    document.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const email = urlParams.get('email');
-        if (email) {
-            const emailField = document.getElementById('newsletterEmail');
-            if (emailField) {
-                const input = emailField.querySelector('input') || emailField;
-                if (input.value !== undefined) {
-                    input.value = email;
-                }
-            }
-        }
-    });
-</script>
