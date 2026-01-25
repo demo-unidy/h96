@@ -1,0 +1,80 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LoginModal from '../components/LoginModal.astro';
+import '../styles/global.css';
+
+interface Props {
+    title: string;
+    description?: string;
+    activePage?: 'home' | 'tickets' | 'subscription' | 'newsletter' | 'profile';
+    pageStyles?: string[];
+    footerVariant?: 'full' | 'minimal';
+    includeUnidyConfig?: boolean;
+    unidyConfigLocation?: 'body' | 'main';
+    redirectUrl?: string;
+}
+
+const {
+    title,
+    description = 'Hannover 96 Fan-Portal',
+    activePage,
+    pageStyles = [],
+    footerVariant = 'full',
+    includeUnidyConfig = true,
+    unidyConfigLocation = 'body',
+    redirectUrl,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+
+    <!-- Google Fonts - Open Sans (Hannover 96 Style) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/login.css">
+    {pageStyles.map((style) => (
+        <link rel="stylesheet" href={`/css/${style}.css`} />
+    ))}
+
+    <!-- Unidy SDK -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@unidy.io/sdk@1.2.0-alpha13/dist/sdk/sdk.esm.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unidy.io/sdk@1.2.0-alpha13/dist/sdk/sdk.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/assets/images/h96-logo.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/h96-logo.svg">
+    <meta name="theme-color" content="#009640">
+</head>
+<body>
+    {includeUnidyConfig && unidyConfigLocation === 'body' && (
+        <u-config
+            base-url="https://hannover96.staging.unidy.de"
+            api-key="b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e"
+            locale="de"
+            redirect-url={redirectUrl}
+        ></u-config>
+    )}
+
+    <Header activePage={activePage} />
+
+    <LoginModal />
+
+    <!-- Global Flash Messages -->
+    <u-flash-message class-name="flash-message" remove-after-seconds="20"></u-flash-message>
+
+    <slot />
+
+    <Footer variant={footerVariant} />
+</body>
+</html>

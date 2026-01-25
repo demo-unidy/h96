@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Mein Profil | Hannover 96" activePage="profile" pageStyles={['profile']}>
+    <main class="profile-main">
+        <div class="container">
+            <!-- Not Logged In State -->
+            <u-signin-root>
+                <div class="profile-not-logged-in">
+                    <div class="profile-not-logged-in__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <h2 class="profile-not-logged-in__title">Anmeldung erforderlich</h2>
+                    <p class="profile-not-logged-in__text">Melde dich an, um dein Profil zu bearbeiten</p>
+                    <button type="button" class="btn btn-primary" onclick="openLoginModal()">Jetzt anmelden</button>
+                </div>
+            </u-signin-root>
+
+            <!-- Logged In State -->
+            <u-signed-in>
+                <u-config
+                    base-url="https://hannover96.staging.unidy.de"
+                    api-key="b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e"
+                    locale="de"
+                ></u-config>
+
+                <!-- Page Header -->
+                <header class="profile-header">
+                    <h1 class="profile-header__title">Mein Profil</h1>
+                    <p class="profile-header__subtitle">Verwalte deine persönlichen Daten und Einstellungen</p>
+                </header>
+
+                <u-profile>
+                    <!-- Personal Data Card -->
+                    <div class="profile-card">
+                        <div class="profile-card__header">
+                            <h2 class="profile-card__title">Persönliche Daten</h2>
+                        </div>
+                        <div class="profile-card__body">
+                            <div class="form-grid">
+                                <div class="form-row">
+                                    <u-field name="salutation" label="Anrede"></u-field>
+                                </div>
+                                <div class="form-row--2col">
+                                    <u-field name="firstName" label="Vorname"></u-field>
+                                    <u-field name="lastName" label="Nachname"></u-field>
+                                </div>
+                                <div class="form-row--2col">
+                                    <u-field name="dateOfBirth" label="Geburtsdatum"></u-field>
+                                    <u-field name="phone" label="Telefon"></u-field>
+                                </div>
+                                <div class="form-row">
+                                    <u-field name="country" label="Land"></u-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address Card -->
+                    <div class="profile-card">
+                        <div class="profile-card__header">
+                            <h2 class="profile-card__title">Adresse</h2>
+                        </div>
+                        <div class="profile-card__body">
+                            <div class="form-grid">
+                                <div class="form-row">
+                                    <u-field name="street" label="Straße und Hausnummer"></u-field>
+                                </div>
+                                <div class="form-row--2col">
+                                    <u-field name="postalCode" label="PLZ"></u-field>
+                                    <u-field name="city" label="Stadt"></u-field>
+                                </div>
+                                <div class="form-row">
+                                    <u-field name="addressCountry" label="Land"></u-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="profile-submit">
+                        <u-submit-button class-name="profile-submit-btn">Änderungen speichern</u-submit-button>
+                    </div>
+
+                    <!-- Success/Error Messages -->
+                    <div class="profile-update-message">
+                        <u-conditional-render if="profileUpdated">
+                            <div class="profile-message profile-message--success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                                Dein Profil wurde erfolgreich aktualisiert
+                            </div>
+                        </u-conditional-render>
+                        <u-conditional-render if="profileUpdateError">
+                            <div class="profile-message profile-message--error">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="15" y1="9" x2="9" y2="15"/>
+                                    <line x1="9" y1="9" x2="15" y2="15"/>
+                                </svg>
+                                Fehler beim Speichern. Bitte versuche es erneut.
+                            </div>
+                        </u-conditional-render>
+                    </div>
+                </u-profile>
+
+                <!-- Logout Section -->
+                <div class="profile-card profile-card--logout">
+                    <div class="profile-card__body">
+                        <div class="logout-section">
+                            <div class="logout-section__info">
+                                <h3 class="logout-section__title">Abmelden</h3>
+                                <p class="logout-section__text">Melde dich von deinem Hannover 96 Konto ab</p>
+                            </div>
+                            <u-logout-button class-name="btn btn-outline logout-btn">Abmelden</u-logout-button>
+                        </div>
+                    </div>
+                </div>
+            </u-signed-in>
+        </div>
+    </main>
+</Layout>

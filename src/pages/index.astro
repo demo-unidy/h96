@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Mein Konto | Hannover 96" activePage="home">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <span class="hero__badge">Hannover 96 ID</span>
+            <h1 class="hero__title">Willkommen bei Hannover 96</h1>
+            <p class="hero__subtitle">Dein persönlicher Bereich für Tickets, Mitgliedschaft und exklusive Inhalte.</p>
+        </div>
+    </section>
+
+    <!-- Cards Section -->
+    <main class="main-content cards-section">
+        <div class="container">
+            <div class="cards-grid">
+                <!-- Tickets Card -->
+                <a href="/tickets" class="card">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                            <path d="M13 5v2"/>
+                            <path d="M13 17v2"/>
+                            <path d="M13 11v2"/>
+                        </svg>
+                    </div>
+                    <h2 class="card-title">Tickets</h2>
+                    <p class="card-text">Verwalte deine Tickets für Heimspiele in der HDI-Arena</p>
+                    <span class="btn btn-primary">Tickets anzeigen</span>
+                </a>
+
+                <!-- Membership Card -->
+                <a href="/subscription" class="card">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h2 class="card-title">Mitgliedschaft</h2>
+                    <p class="card-text">Werde Teil der 96-Familie und genieße exklusive Vorteile</p>
+                    <span class="btn btn-primary">Mitgliedschaft</span>
+                </a>
+
+                <!-- Newsletter Card -->
+                <a href="/newsletter-subscription" class="card">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                    </div>
+                    <h2 class="card-title">Newsletter</h2>
+                    <p class="card-text">Bleib informiert mit aktuellen News, Transfers und mehr</p>
+                    <span class="btn btn-primary">Newsletter</span>
+                </a>
+
+                <!-- Profile Card -->
+                <a href="/profile" class="card">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <h2 class="card-title">Mein Profil</h2>
+                    <p class="card-text">Verwalte deine persönlichen Daten und Einstellungen</p>
+                    <span class="btn btn-primary">Zum Profil</span>
+                </a>
+
+                <!-- Preference Center Card -->
+                <a href="/preference-center" class="card">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <h2 class="card-title">Einstellungen</h2>
+                    <p class="card-text">Verwalte deine Newsletter-Präferenzen und Kommunikation</p>
+                    <span class="btn btn-primary">Einstellungen</span>
+                </a>
+
+                <!-- Newsletter Widget Card -->
+                <div class="card card--newsletter-widget">
+                    <div class="newsletter-widget">
+                        <div class="newsletter-widget__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="newsletter-widget__title">Niemals Allein</h2>
+                        <p class="newsletter-widget__text">Melde dich für unseren Newsletter an und verpasse keine News!</p>
+
+                        <div id="newsletterWidgetForm">
+                            <form class="newsletter-widget__form" id="newsletterWidgetFormInner">
+                                <input type="email" class="newsletter-widget__input" id="newsletterWidgetEmail" placeholder="deine@email.de" required>
+                                <button type="submit" class="newsletter-widget__btn">Anmelden</button>
+                            </form>
+                            <span id="newsletterWidgetError" class="newsletter-widget__error" style="display: none;"></span>
+                        </div>
+
+                        <div id="newsletterWidgetSuccess" class="newsletter-widget__success" style="display: none;">
+                            <span class="newsletter-widget__check">✓</span>
+                            <span>Erfolgreich angemeldet!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script is:inline>
+    const newsletterForm = document.getElementById('newsletterWidgetFormInner');
+    const newsletterError = document.getElementById('newsletterWidgetError');
+    const newsletterFormContainer = document.getElementById('newsletterWidgetForm');
+    const newsletterSuccess = document.getElementById('newsletterWidgetSuccess');
+
+    newsletterForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('newsletterWidgetEmail').value;
+        newsletterError.style.display = 'none';
+
+        // Simple email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            newsletterError.textContent = 'Bitte gib eine gültige E-Mail-Adresse ein';
+            newsletterError.style.display = 'block';
+            return;
+        }
+
+        try {
+            // Redirect to newsletter subscription page with email
+            window.location.href = `/newsletter-subscription?email=${encodeURIComponent(email)}`;
+        } catch (error) {
+            newsletterError.textContent = 'Ein Fehler ist aufgetreten';
+            newsletterError.style.display = 'block';
+        }
+    });
+</script>

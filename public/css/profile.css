@@ -1,0 +1,382 @@
+/* ===========================================
+   Hannover 96 - Profile Page Styles
+   =========================================== */
+
+/* ===========================================
+   PROFILE MAIN
+   =========================================== */
+.profile-main {
+    background-color: var(--color-background-light);
+    min-height: calc(100vh - 200px);
+    padding: var(--space-8) 0;
+}
+
+.profile-main .container {
+    max-width: 800px;
+}
+
+/* ===========================================
+   NOT LOGGED IN STATE
+   =========================================== */
+.profile-not-logged-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    padding: var(--space-10);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.profile-not-logged-in__icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background-light);
+    border-radius: var(--radius-full);
+    color: var(--color-text-light);
+    margin-bottom: var(--space-6);
+}
+
+.profile-not-logged-in__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+}
+
+.profile-not-logged-in__text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+    margin-bottom: var(--space-6);
+}
+
+/* ===========================================
+   PROFILE HEADER
+   =========================================== */
+.profile-header {
+    margin-bottom: var(--space-8);
+}
+
+.profile-header__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+    text-transform: uppercase;
+}
+
+.profile-header__subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+}
+
+/* ===========================================
+   PROFILE CARDS
+   =========================================== */
+.profile-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+    overflow: hidden;
+}
+
+.profile-card__header {
+    padding: var(--space-5) var(--space-6);
+    background-color: var(--color-background-light);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.profile-card__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.profile-card__body {
+    padding: var(--space-6);
+}
+
+/* ===========================================
+   FORM GRID
+   =========================================== */
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.form-row {
+    display: block;
+    width: 100%;
+}
+
+.form-row--2col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    align-items: start;
+}
+
+.form-row u-field,
+.form-row--2col u-field {
+    display: block;
+    width: 100%;
+}
+
+/* ===========================================
+   UNIDY FIELD STYLING
+   =========================================== */
+u-field {
+    display: block !important;
+    width: 100% !important;
+}
+
+u-field::part(field-container) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--space-2);
+    width: 100%;
+}
+
+u-field::part(field_label) {
+    display: block !important;
+    width: 100%;
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+    order: -1;
+}
+
+u-field::part(input_field),
+u-field::part(select_field),
+u-field::part(textarea_field) {
+    display: block !important;
+    width: 100% !important;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    transition: all var(--transition-normal);
+    box-sizing: border-box;
+}
+
+u-field::part(input_field):focus,
+u-field::part(select_field):focus,
+u-field::part(textarea_field):focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 150, 64, 0.15);
+}
+
+u-field::part(select_field) {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236B8299' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+
+u-field::part(required-indicator) {
+    color: var(--color-accent);
+    margin-left: var(--space-1);
+}
+
+u-field::part(radio-group_field) {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+u-field::part(radio-group-item_label) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-sm);
+}
+
+u-field::part(radio-group-item_label):hover {
+    border-color: var(--color-primary);
+}
+
+u-field::part(radio_checked) {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+/* ===========================================
+   PROFILE SUBMIT
+   =========================================== */
+.profile-submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-4);
+}
+
+.profile-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4) var(--space-8);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-normal);
+    min-height: 48px;
+}
+
+.profile-submit-btn:hover {
+    background-color: var(--color-accent-hover);
+}
+
+/* ===========================================
+   PROFILE UPDATE MESSAGES
+   =========================================== */
+.profile-update-message {
+    margin-top: var(--space-4);
+}
+
+.profile-message {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-message--success {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.profile-message--error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* ===========================================
+   LOGOUT SECTION
+   =========================================== */
+.profile-card--logout {
+    background-color: var(--color-background-light);
+    border-color: var(--color-border);
+}
+
+.profile-card--logout .profile-card__body {
+    padding: var(--space-5) var(--space-6);
+}
+
+.logout-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.logout-section__info {
+    flex: 1;
+}
+
+.logout-section__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin-bottom: var(--space-1);
+    text-transform: uppercase;
+}
+
+.logout-section__text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+.logout-btn {
+    flex-shrink: 0;
+    padding: var(--space-3) var(--space-6);
+}
+
+/* ===========================================
+   RESPONSIVE
+   =========================================== */
+@media (max-width: 767px) {
+    .profile-header__title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .profile-card__header {
+        padding: var(--space-4);
+    }
+
+    .profile-card__body {
+        padding: var(--space-4);
+    }
+
+    .form-row--2col {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-submit {
+        justify-content: stretch;
+    }
+
+    .profile-submit-btn {
+        width: 100%;
+    }
+
+    .logout-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logout-section__info {
+        margin-bottom: var(--space-4);
+    }
+
+    .logout-btn {
+        width: 100%;
+    }
+}

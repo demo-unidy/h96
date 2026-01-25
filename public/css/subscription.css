@@ -1,0 +1,530 @@
+/* ===========================================
+   Hannover 96 - Subscription/Membership Page Styles
+   =========================================== */
+
+/* ===========================================
+   SUBSCRIPTION MAIN
+   =========================================== */
+.subscription-main {
+    background-color: var(--color-background-light);
+    min-height: calc(100vh - 200px);
+    padding: var(--space-8) 0;
+}
+
+.subscription-main .container {
+    max-width: 1000px;
+}
+
+/* ===========================================
+   SUBSCRIPTION HEADER
+   =========================================== */
+.subscription-header {
+    margin-bottom: var(--space-8);
+}
+
+.subscription-header__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin-bottom: var(--space-2);
+    text-transform: uppercase;
+}
+
+.subscription-header__subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+}
+
+/* ===========================================
+   NOT LOGGED IN STATE
+   =========================================== */
+.subscription-not-logged-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    padding: var(--space-10);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.subscription-not-logged-in__icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background-light);
+    border-radius: var(--radius-full);
+    color: var(--color-text-light);
+    margin-bottom: var(--space-6);
+}
+
+.subscription-not-logged-in__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+}
+
+.subscription-not-logged-in__text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+    margin-bottom: var(--space-6);
+}
+
+/* ===========================================
+   SUBSCRIPTION CONTENT (Logged In)
+   =========================================== */
+.subscription-content {
+    display: none;
+}
+
+.subscription-content.active {
+    display: block;
+}
+
+/* ===========================================
+   SECTION STYLES
+   =========================================== */
+.subscription-section {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.section-title svg {
+    color: var(--color-primary);
+}
+
+.section-filter {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.filter-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-light);
+}
+
+.filter-select {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    color: var(--color-text);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color var(--transition-normal);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+/* ===========================================
+   SUBSCRIPTION GRID (Cards)
+   =========================================== */
+.subscription-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-5);
+}
+
+/* ===========================================
+   SUBSCRIPTION CARD
+   =========================================== */
+.subscription-card {
+    position: relative;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    transition: all var(--transition-normal);
+}
+
+.subscription-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.subscription-card--active {
+    border-color: var(--color-primary);
+    background: linear-gradient(135deg, rgba(0, 150, 64, 0.05) 0%, transparent 100%);
+}
+
+.subscription-card__badge {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-1) var(--space-3);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+}
+
+.subscription-card__header {
+    margin-bottom: var(--space-4);
+    padding-right: var(--space-16);
+}
+
+.subscription-card__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin: 0 0 var(--space-1);
+    text-transform: uppercase;
+}
+
+.subscription-card__type {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.subscription-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.subscription-card__detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+}
+
+.detail-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.detail-value--price {
+    color: var(--color-primary);
+    font-size: var(--font-size-base);
+}
+
+.subscription-card__actions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+/* ===========================================
+   SUBSCRIPTION TABLE
+   =========================================== */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.subscription-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.subscription-table thead {
+    background-color: var(--color-background-light);
+}
+
+.subscription-table th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-light);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.subscription-table td {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
+.table-row:hover td {
+    background-color: rgba(0, 150, 64, 0.05);
+}
+
+.table-title {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-dark);
+}
+
+.table-price {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+}
+
+.table-action {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+}
+
+.table-action:hover {
+    color: var(--color-dark);
+    text-decoration: underline;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: capitalize;
+    border-radius: var(--radius-full);
+    background-color: var(--color-background-light);
+    color: var(--color-text-light);
+}
+
+/* ===========================================
+   PAGINATION
+   =========================================== */
+.table-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+}
+
+.pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+}
+
+/* ===========================================
+   EMPTY STATE
+   =========================================== */
+.empty-state {
+    text-align: center;
+    padding: var(--space-10);
+}
+
+.empty-state__icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background-light);
+    border-radius: var(--radius-full);
+    color: var(--color-text-light);
+    margin: 0 auto var(--space-5);
+}
+
+.empty-state h3 {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin: 0 0 var(--space-2);
+    text-transform: uppercase;
+}
+
+.empty-state p {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+    margin: 0 0 var(--space-6);
+}
+
+.empty-state--small {
+    padding: var(--space-6);
+}
+
+.empty-state--small p {
+    margin-bottom: 0;
+}
+
+/* ===========================================
+   SUBSCRIPTION CTA
+   =========================================== */
+.subscription-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-radius: var(--radius-lg);
+    color: var(--color-white);
+}
+
+.cta-content h2 {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--space-2);
+    text-transform: uppercase;
+}
+
+.cta-content p {
+    font-size: var(--font-size-base);
+    color: var(--color-white-70);
+    margin: 0;
+}
+
+.subscription-cta .btn-primary {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background-color: var(--color-white);
+    color: var(--color-primary);
+}
+
+.subscription-cta .btn-primary:hover {
+    background-color: var(--color-background-light);
+}
+
+/* ===========================================
+   BUTTONS
+   =========================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.btn-outline:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--font-size-base);
+}
+
+/* ===========================================
+   RESPONSIVE
+   =========================================== */
+@media (max-width: 767px) {
+    .subscription-header__title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .subscription-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .subscription-table th,
+    .subscription-table td {
+        padding: var(--space-3);
+    }
+
+    .subscription-cta {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .subscription-cta .btn-primary {
+        width: 100%;
+    }
+}
