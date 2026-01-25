@@ -2,144 +2,231 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Meine Tickets | Hannover 96" activePage="tickets" pageStyles={['tickets']}>
-    <main class="tickets-main">
+<Layout title="Meine Tickets - Hannover 96" activePage="tickets" pageStyles={['tickets']}>
+    <main class="main-content tickets-main">
+        <u-config
+            base-url="https://hannover96.staging.unidy.de"
+            api-key="b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e"
+            locale="de">
+        </u-config>
+
         <div class="container">
             <!-- Page Header -->
-            <header class="tickets-header">
+            <div class="tickets-header">
                 <h1 class="tickets-header__title">Meine Tickets</h1>
-                <p class="tickets-header__subtitle">Verwalte deine Tickets für Heimspiele in der HDI-Arena</p>
-            </header>
+                <p class="tickets-header__subtitle">Verwalte hier deine Eintrittskarten für die HDI-Arena</p>
+            </div>
 
             <!-- Not Logged In State -->
-            <u-signin-root>
+            <u-signed-in not>
                 <div class="tickets-not-logged-in">
                     <div class="tickets-not-logged-in__icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
-                            <path d="M13 5v2"/>
-                            <path d="M13 17v2"/>
-                            <path d="M13 11v2"/>
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                         </svg>
                     </div>
-                    <h2 class="tickets-not-logged-in__title">Anmeldung erforderlich</h2>
-                    <p class="tickets-not-logged-in__text">Melde dich an, um deine Tickets zu sehen</p>
-                    <button type="button" class="btn btn-primary" onclick="openLoginModal()">Jetzt anmelden</button>
+                    <h2 class="tickets-not-logged-in__title">Bitte melde dich an</h2>
+                    <p class="tickets-not-logged-in__text">
+                        Um deine Tickets zu verwalten, musst du angemeldet sein.
+                    </p>
+                    <button type="button" class="btn btn-primary" onclick="openLoginModal()">Zur Anmeldung</button>
                 </div>
-            </u-signin-root>
+            </u-signed-in>
 
-            <!-- Logged In State -->
+            <!-- Logged In Content -->
             <u-signed-in>
-                <div class="tickets-content">
-                    <u-config
-                        base-url="https://hannover96.staging.unidy.de"
-                        api-key="b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e"
-                        locale="de"
-                    ></u-config>
-
-                    <!-- Active Tickets Section -->
+                <div class="tickets-content active">
+                    <!-- Active Tickets -->
                     <section class="tickets-section">
                         <div class="section-header">
                             <h2 class="section-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
                                 </svg>
                                 Aktive Tickets
                             </h2>
                         </div>
 
-                        <u-ticketable-list type="ticket" status="active">
-                            <div class="tickets-grid" slot="tickets">
-                                <!-- Tickets will be rendered here by Unidy SDK -->
-                            </div>
-
-                            <div class="empty-state" slot="empty">
+                        <u-ticketable-list ticketable-type="ticket" filter="state=active" container-class="tickets-grid" limit="10" skeleton-count="2" skeleton-all-text="true">
+                            <!-- Empty State -->
+                            <div slot="empty" class="empty-state">
                                 <div class="empty-state__icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M15 5v2"/>
+                                        <path d="M15 11v2"/>
+                                        <path d="M15 17v2"/>
+                                        <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2z"/>
                                     </svg>
                                 </div>
                                 <h3>Keine aktiven Tickets</h3>
-                                <p>Du hast aktuell keine aktiven Tickets für Heimspiele</p>
+                                <p>Du hast derzeit keine aktiven Tickets für kommende Spiele.</p>
+                                <a href="https://www.hannover96.de/tickets" target="_blank" class="btn btn-primary">
+                                    Tickets kaufen
+                                </a>
                             </div>
+
+                            <!-- Ticket Card Template -->
+                            <template>
+                                <div class="ticket-card ticket-card--active">
+                                    <div class="ticket-card__badge">Aktiv</div>
+                                    <div class="ticket-card__header">
+                                        <h3 class="ticket-card__title">
+                                            <ticketable-value name="title"></ticketable-value>
+                                        </h3>
+                                        <span class="ticket-card__type">
+                                            <ticketable-value name="ticket_type"></ticketable-value>
+                                        </span>
+                                    </div>
+                                    <div class="ticket-card__body">
+                                        <div class="ticket-card__detail">
+                                            <span class="detail-label">Spieltag</span>
+                                            <span class="detail-value">
+                                                <ticketable-value name="event_date" date-format="dd.MM.yyyy"></ticketable-value>
+                                            </span>
+                                        </div>
+                                        <div class="ticket-card__detail">
+                                            <span class="detail-label">Anstoß</span>
+                                            <span class="detail-value">
+                                                <ticketable-value name="event_time"></ticketable-value>
+                                            </span>
+                                        </div>
+                                        <div class="ticket-card__detail">
+                                            <span class="detail-label">Block / Reihe / Platz</span>
+                                            <span class="detail-value">
+                                                <ticketable-value name="seat_info"></ticketable-value>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ticket-card__actions">
+                                        <a unidy-attr unidy-attr-href="{{button_cta_url}}" class="btn btn-outline">
+                                            Ticket anzeigen
+                                        </a>
+                                    </div>
+                                </div>
+                            </template>
                         </u-ticketable-list>
                     </section>
 
-                    <!-- Ticket History Section -->
+                    <!-- Ticket History -->
                     <section class="tickets-section">
                         <div class="section-header">
                             <h2 class="section-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="12" cy="12" r="10"/>
                                     <polyline points="12 6 12 12 16 14"/>
                                 </svg>
                                 Ticket-Verlauf
                             </h2>
                             <div class="section-filter">
-                                <label class="filter-label" for="ticketStatusFilter">Status:</label>
-                                <select id="ticketStatusFilter" class="filter-select">
-                                    <option value="all">Alle</option>
+                                <label for="state-filter" class="filter-label">Status:</label>
+                                <select id="state-filter" class="filter-select">
+                                    <option value="">Alle</option>
                                     <option value="active">Aktiv</option>
-                                    <option value="used">Verwendet</option>
+                                    <option value="used">Eingelöst</option>
                                     <option value="expired">Abgelaufen</option>
                                 </select>
                             </div>
                         </div>
 
-                        <u-ticketable-list type="ticket" page-size="5">
-                            <div class="table-wrapper" slot="tickets">
+                        <u-ticketable-list id="ticket-history" ticketable-type="ticket" target="#history-table-body" limit="10" skeleton-count="3" skeleton-all-text="true">
+                            <div class="table-wrapper">
                                 <table class="tickets-table">
                                     <thead>
                                         <tr>
-                                            <th>Veranstaltung</th>
+                                            <th>Spiel / Event</th>
                                             <th>Datum</th>
                                             <th>Platz</th>
                                             <th>Status</th>
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <!-- Ticket rows will be rendered here by Unidy SDK -->
-                                    </tbody>
+                                    <tbody id="history-table-body"></tbody>
                                 </table>
+
+                                <!-- Pagination -->
+                                <div class="table-pagination">
+                                    <u-pagination-button direction="prev" custom-class="pagination-btn">
+                                        <span slot="icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="15 18 9 12 15 6"/>
+                                            </svg>
+                                        </span>
+                                    </u-pagination-button>
+                                    <u-pagination-page custom-class="pagination-info"></u-pagination-page>
+                                    <u-pagination-button direction="next" custom-class="pagination-btn">
+                                        <span slot="icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"/>
+                                            </svg>
+                                        </span>
+                                    </u-pagination-button>
+                                </div>
                             </div>
 
-                            <div class="table-pagination" slot="pagination">
-                                <u-pagination-button direction="prev" class-name="pagination-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="15 18 9 12 15 6"/>
-                                    </svg>
-                                </u-pagination-button>
-                                <u-pagination-page class-name="pagination-info"></u-pagination-page>
-                                <u-pagination-button direction="next" class-name="pagination-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="9 18 15 12 9 6"/>
-                                    </svg>
-                                </u-pagination-button>
+                            <!-- Empty State for History -->
+                            <div slot="empty" class="empty-state empty-state--small">
+                                <p>Keine Tickets gefunden.</p>
                             </div>
 
-                            <div class="empty-state empty-state--small" slot="empty">
-                                <p>Keine Tickets im Verlauf gefunden</p>
-                            </div>
+                            <!-- Table Row Template -->
+                            <template>
+                                <tr class="table-row">
+                                    <td>
+                                        <span class="table-title">
+                                            <ticketable-value name="title"></ticketable-value>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <ticketable-value name="event_date" date-format="dd.MM.yyyy"></ticketable-value>
+                                    </td>
+                                    <td>
+                                        <ticketable-value name="seat_info"></ticketable-value>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge">
+                                            <ticketable-value name="state"></ticketable-value>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a unidy-attr unidy-attr-href="{{button_cta_url}}" class="table-action">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            </template>
                         </u-ticketable-list>
                     </section>
 
                     <!-- CTA Section -->
                     <section class="tickets-cta">
                         <div class="cta-content">
-                            <h2>Tickets für das nächste Heimspiel</h2>
-                            <p>Sichere dir jetzt deine Tickets für die HDI-Arena</p>
+                            <h2>Nächstes Heimspiel verpasst?</h2>
+                            <p>Sichere dir jetzt deine Tickets für die HDI-Arena.</p>
                         </div>
-                        <a href="https://www.hannover96.de/tickets" target="_blank" class="btn btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                                <polyline points="15 3 21 3 21 9"/>
-                                <line x1="10" y1="14" x2="21" y2="3"/>
-                            </svg>
+                        <a href="https://www.hannover96.de/tickets" target="_blank" class="btn btn-primary btn-lg">
                             Tickets kaufen
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
                         </a>
                     </section>
                 </div>
+
+                <script is:inline>
+                    document.getElementById('state-filter').addEventListener('change', e => {
+                        const list = document.getElementById('ticket-history');
+                        const currentFilter = list.getAttribute('filter') || '';
+                        const params = new URLSearchParams(currentFilter.replace(/;/g, '&'));
+                        if (e.target.value) {
+                            params.set('state', e.target.value);
+                        } else {
+                            params.delete('state');
+                        }
+                        list.setAttribute('filter', params.toString().replace(/&/g, ';'));
+                    });
+                </script>
             </u-signed-in>
         </div>
     </main>

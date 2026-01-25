@@ -2,85 +2,117 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Meine Mitgliedschaft | Hannover 96" activePage="subscription" pageStyles={['subscription']}>
-    <main class="subscription-main">
+<Layout title="Meine Mitgliedschaft - Hannover 96" activePage="subscription" pageStyles={['subscription']}>
+    <main class="main-content subscription-main">
         <div class="container">
             <!-- Page Header -->
-            <header class="subscription-header">
+            <div class="subscription-header">
                 <h1 class="subscription-header__title">Meine Mitgliedschaft</h1>
-                <p class="subscription-header__subtitle">Verwalte deine Mitgliedschaft bei Hannover 96</p>
-            </header>
+                <p class="subscription-header__subtitle">Verwalte hier deine Hannover 96 Mitgliedschaft</p>
+            </div>
 
             <!-- Not Logged In State -->
-            <u-signin-root>
+            <u-signed-in not>
                 <div class="subscription-not-logged-in">
                     <div class="subscription-not-logged-in__icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                         </svg>
                     </div>
-                    <h2 class="subscription-not-logged-in__title">Anmeldung erforderlich</h2>
-                    <p class="subscription-not-logged-in__text">Melde dich an, um deine Mitgliedschaft zu sehen</p>
-                    <button type="button" class="btn btn-primary" onclick="openLoginModal()">Jetzt anmelden</button>
+                    <h2 class="subscription-not-logged-in__title">Bitte melde dich an</h2>
+                    <p class="subscription-not-logged-in__text">
+                        Um deine Mitgliedschaft zu verwalten, musst du angemeldet sein.
+                    </p>
+                    <button type="button" class="btn btn-primary" onclick="openLoginModal()">Zur Anmeldung</button>
                 </div>
-            </u-signin-root>
+            </u-signed-in>
 
-            <!-- Logged In State -->
+            <!-- Logged In Content -->
             <u-signed-in>
                 <div class="subscription-content active">
-                    <u-config
-                        base-url="https://hannover96.staging.unidy.de"
-                        api-key="b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e"
-                        locale="de"
-                    ></u-config>
-
-                    <!-- Active Membership Section -->
+                    <!-- Active Subscriptions -->
                     <section class="subscription-section">
                         <div class="section-header">
                             <h2 class="section-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
                                 </svg>
                                 Aktive Mitgliedschaft
                             </h2>
                         </div>
 
-                        <u-ticketable-list type="subscription" status="active">
-                            <div class="subscription-grid" slot="subscriptions">
-                                <!-- Subscriptions will be rendered here by Unidy SDK -->
-                            </div>
-
-                            <div class="empty-state" slot="empty">
+                        <u-ticketable-list ticketable-type="subscription" filter="state=active" container-class="subscription-grid" limit="10" skeleton-count="2" skeleton-all-text="true">
+                            <!-- Empty State -->
+                            <div slot="empty" class="empty-state">
                                 <div class="empty-state__icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                                        <circle cx="9" cy="7" r="4"/>
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
                                     </svg>
                                 </div>
                                 <h3>Keine aktive Mitgliedschaft</h3>
-                                <p>Du bist aktuell kein Mitglied bei Hannover 96</p>
+                                <p>Du hast derzeit keine aktive Hannover 96 Mitgliedschaft.</p>
+                                <a href="https://www.hannover96.de/mitgliedschaft" target="_blank" class="btn btn-primary">
+                                    Jetzt Mitglied werden
+                                </a>
                             </div>
+
+                            <!-- Subscription Card Template -->
+                            <template>
+                                <div class="subscription-card subscription-card--active">
+                                    <div class="subscription-card__badge">Aktiv</div>
+                                    <div class="subscription-card__header">
+                                        <h3 class="subscription-card__title">
+                                            <ticketable-value name="title"></ticketable-value>
+                                        </h3>
+                                        <span class="subscription-card__type">H96 Mitglied</span>
+                                    </div>
+                                    <div class="subscription-card__body">
+                                        <div class="subscription-card__detail">
+                                            <span class="detail-label">Mitglied seit</span>
+                                            <span class="detail-value">
+                                                <ticketable-value name="starts_at" date-format="dd.MM.yyyy"></ticketable-value>
+                                            </span>
+                                        </div>
+                                        <div class="subscription-card__detail">
+                                            <span class="detail-label">Gültig bis</span>
+                                            <span class="detail-value">
+                                                <ticketable-value name="ends_at" date-format="dd.MM.yyyy"></ticketable-value>
+                                            </span>
+                                        </div>
+                                        <div class="subscription-card__detail">
+                                            <span class="detail-label">Beitrag</span>
+                                            <span class="detail-value detail-value--price">
+                                                <ticketable-value name="price"></ticketable-value>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="subscription-card__actions">
+                                        <a unidy-attr unidy-attr-href="{{button_cta_url}}" class="btn btn-outline">
+                                            Details anzeigen
+                                        </a>
+                                    </div>
+                                </div>
+                            </template>
                         </u-ticketable-list>
                     </section>
 
-                    <!-- Membership History Section -->
+                    <!-- Subscription History -->
                     <section class="subscription-section">
                         <div class="section-header">
                             <h2 class="section-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="12" cy="12" r="10"/>
                                     <polyline points="12 6 12 12 16 14"/>
                                 </svg>
                                 Mitgliedschafts-Verlauf
                             </h2>
                             <div class="section-filter">
-                                <label class="filter-label" for="subscriptionStatusFilter">Status:</label>
-                                <select id="subscriptionStatusFilter" class="filter-select">
-                                    <option value="all">Alle</option>
+                                <label for="state-filter" class="filter-label">Status:</label>
+                                <select id="state-filter" class="filter-select">
+                                    <option value="">Alle</option>
                                     <option value="active">Aktiv</option>
                                     <option value="inactive">Inaktiv</option>
                                     <option value="cancelled">Gekündigt</option>
@@ -88,60 +120,119 @@ import Layout from '../layouts/Layout.astro';
                             </div>
                         </div>
 
-                        <u-ticketable-list type="subscription" page-size="5">
-                            <div class="table-wrapper" slot="subscriptions">
+                        <u-ticketable-list id="subscription-history" ticketable-type="subscription" target="#history-table-body" limit="10" skeleton-count="2" skeleton-all-text="true">
+                            <div class="table-wrapper">
                                 <table class="subscription-table">
                                     <thead>
                                         <tr>
                                             <th>Mitgliedschaft</th>
-                                            <th>Zeitraum</th>
+                                            <th>Beginn</th>
+                                            <th>Ende</th>
                                             <th>Beitrag</th>
                                             <th>Status</th>
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <!-- Subscription rows will be rendered here by Unidy SDK -->
-                                    </tbody>
+                                    <tbody id="history-table-body"></tbody>
                                 </table>
+
+                                <!-- Pagination -->
+                                <div class="table-pagination">
+                                    <u-pagination-button direction="prev" custom-class="pagination-btn">
+                                        <span slot="icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="15 18 9 12 15 6"/>
+                                            </svg>
+                                        </span>
+                                    </u-pagination-button>
+                                    <u-pagination-page custom-class="pagination-info"></u-pagination-page>
+                                    <u-pagination-button direction="next" custom-class="pagination-btn">
+                                        <span slot="icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="9 18 15 12 9 6"/>
+                                            </svg>
+                                        </span>
+                                    </u-pagination-button>
+                                </div>
                             </div>
 
-                            <div class="table-pagination" slot="pagination">
-                                <u-pagination-button direction="prev" class-name="pagination-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="15 18 9 12 15 6"/>
-                                    </svg>
-                                </u-pagination-button>
-                                <u-pagination-page class-name="pagination-info"></u-pagination-page>
-                                <u-pagination-button direction="next" class-name="pagination-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="9 18 15 12 9 6"/>
-                                    </svg>
-                                </u-pagination-button>
+                            <!-- Empty State for History -->
+                            <div slot="empty" class="empty-state empty-state--small">
+                                <p>Keine Mitgliedschaften gefunden.</p>
                             </div>
 
-                            <div class="empty-state empty-state--small" slot="empty">
-                                <p>Keine Mitgliedschaften im Verlauf gefunden</p>
-                            </div>
+                            <!-- Table Row Template -->
+                            <template>
+                                <tr class="table-row">
+                                    <td>
+                                        <span class="table-title">
+                                            <ticketable-value name="title"></ticketable-value>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <ticketable-value name="starts_at" date-format="dd.MM.yyyy"></ticketable-value>
+                                    </td>
+                                    <td>
+                                        <ticketable-value name="ends_at" date-format="dd.MM.yyyy"></ticketable-value>
+                                    </td>
+                                    <td>
+                                        <span class="table-price">
+                                            <ticketable-value name="price"></ticketable-value>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge">
+                                            <ticketable-value name="state"></ticketable-value>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a unidy-attr unidy-attr-href="{{button_cta_url}}" class="table-action">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            </template>
                         </u-ticketable-list>
                     </section>
 
                     <!-- CTA Section -->
                     <section class="subscription-cta">
                         <div class="cta-content">
-                            <h2>Werde Teil der 96-Familie</h2>
-                            <p>Genieße exklusive Vorteile als Mitglied von Hannover 96</p>
+                            <h2>Noch kein Hannover 96 Mitglied?</h2>
+                            <p>Werde Teil der 96-Familie und sichere dir exklusive Vorteile.</p>
                         </div>
-                        <a href="https://www.hannover96.de/mitgliedschaft" target="_blank" class="btn btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                                <polyline points="15 3 21 3 21 9"/>
-                                <line x1="10" y1="14" x2="21" y2="3"/>
+                        <a href="https://www.hannover96.de/mitgliedschaft" target="_blank" class="btn btn-primary btn-lg">
+                            Jetzt Mitglied werden
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
                             </svg>
-                            Mitglied werden
                         </a>
                     </section>
                 </div>
+
+                <!-- Filter Script -->
+                <script is:inline>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const stateFilter = document.getElementById('state-filter');
+                        const subscriptionList = document.getElementById('subscription-history');
+
+                        if (stateFilter && subscriptionList) {
+                            stateFilter.addEventListener('change', (e) => {
+                                const currentFilter = subscriptionList.getAttribute('filter') || '';
+                                const params = new URLSearchParams(currentFilter.replace(/;/g, '&'));
+
+                                if (e.target.value) {
+                                    params.set('state', e.target.value);
+                                } else {
+                                    params.delete('state');
+                                }
+
+                                const newFilter = params.toString().replace(/&/g, ';');
+                                subscriptionList.setAttribute('filter', newFilter);
+                            });
+                        }
+                    });
+                </script>
             </u-signed-in>
         </div>
     </main>
