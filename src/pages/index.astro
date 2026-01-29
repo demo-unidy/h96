@@ -6,7 +6,7 @@ import Layout from '../layouts/Layout.astro';
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <span class="hero__badge">Hannover 96 ID</span>
+            <span class="hero__badge">mein96</span>
             <h1 class="hero__title">Willkommen bei Hannover 96</h1>
             <p class="hero__subtitle">Dein persönlicher Bereich für Tickets, Mitgliedschaft und exklusive Inhalte.</p>
         </div>
@@ -97,18 +97,36 @@ import Layout from '../layouts/Layout.astro';
                         <h2 class="newsletter-widget__title">Niemals Allein</h2>
                         <p class="newsletter-widget__text">Melde dich für unseren Newsletter an und verpasse keine News!</p>
 
-                        <div id="newsletterWidgetForm">
-                            <form class="newsletter-widget__form" id="newsletterWidgetFormInner">
-                                <input type="email" class="newsletter-widget__input" id="newsletterWidgetEmail" placeholder="deine@email.de" required>
-                                <button type="submit" class="newsletter-widget__btn">Anmelden</button>
-                            </form>
-                            <span id="newsletterWidgetError" class="newsletter-widget__error" style="display: none;"></span>
-                        </div>
+                        <u-newsletter-root>
+                            <!-- Not logged in: Show form -->
+                            <u-conditional-render when="newsletter.loggedIn" not>
+                                <div class="newsletter-widget__form">
+                                    <u-email-field
+                                        class-name="newsletter-widget__input"
+                                        placeholder="deine@email.de">
+                                    </u-email-field>
+                                    <u-newsletter-checkbox
+                                        internal-name="ns_with_prefs"
+                                        checked="true"
+                                        class-name="newsletter-widget__checkbox-hidden">
+                                    </u-newsletter-checkbox>
+                                    <u-submit-button class-name="newsletter-widget__btn">
+                                        Anmelden
+                                    </u-submit-button>
+                                    <u-error-message for="email" class-name="newsletter-widget__error"></u-error-message>
+                                    <u-error-message for="general" class-name="newsletter-widget__error"></u-error-message>
+                                </div>
+                            </u-conditional-render>
 
-                        <div id="newsletterWidgetSuccess" class="newsletter-widget__success" style="display: none;">
-                            <span class="newsletter-widget__check">✓</span>
-                            <span>Erfolgreich angemeldet!</span>
-                        </div>
+                            <!-- Logged in: Show success -->
+                            <u-conditional-render when="newsletter.loggedIn">
+                                <div class="newsletter-widget__success">
+                                    <span class="newsletter-widget__check">✓</span>
+                                    <span>Vielen Dank! Bitte bestätige deine E-Mail-Adresse.</span>
+                                </div>
+                                <a href="/preference-center" class="newsletter-widget__manage-link">Newsletter verwalten</a>
+                            </u-conditional-render>
+                        </u-newsletter-root>
                     </div>
                 </div>
             </div>
@@ -116,31 +134,3 @@ import Layout from '../layouts/Layout.astro';
     </main>
 </Layout>
 
-<script is:inline>
-    const newsletterForm = document.getElementById('newsletterWidgetFormInner');
-    const newsletterError = document.getElementById('newsletterWidgetError');
-    const newsletterFormContainer = document.getElementById('newsletterWidgetForm');
-    const newsletterSuccess = document.getElementById('newsletterWidgetSuccess');
-
-    newsletterForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('newsletterWidgetEmail').value;
-        newsletterError.style.display = 'none';
-
-        // Simple email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            newsletterError.textContent = 'Bitte gib eine gültige E-Mail-Adresse ein';
-            newsletterError.style.display = 'block';
-            return;
-        }
-
-        try {
-            // Redirect to newsletter subscription page with email
-            window.location.href = `/newsletter-subscription?email=${encodeURIComponent(email)}`;
-        } catch (error) {
-            newsletterError.textContent = 'Ein Fehler ist aufgetreten';
-            newsletterError.style.display = 'block';
-        }
-    });
-</script>

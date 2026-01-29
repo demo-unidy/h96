@@ -1191,3 +1191,24 @@ u-flash-message::part(error) {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
 }
+
+.newsletter-widget__checkbox-hidden {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.newsletter-widget__manage-link {
+    display: inline-block;
+    margin-top: var(--space-3);
+    font-size: var(--font-size-sm);
+    color: var(--color-white-70);
+    text-decoration: underline;
+    transition: color var(--transition-fast);
+}
+
+.newsletter-widget__manage-link:hover {
+    color: var(--color-white);
+}

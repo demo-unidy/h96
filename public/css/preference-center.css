@@ -678,3 +678,70 @@
         padding: var(--space-3) var(--space-4);
     }
 }
+
+/* Unsubscribe Success Modal */
+.pref-success-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 360px;
+    width: calc(100% - var(--space-8));
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.pref-success-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.pref-success-modal__content {
+    padding: var(--space-8);
+    text-align: center;
+}
+
+.pref-success-modal__icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dcfce7;
+    color: #16a34a;
+    border-radius: var(--radius-full);
+}
+
+.pref-success-modal__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin-bottom: var(--space-2);
+}
+
+.pref-success-modal__text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+    margin-bottom: var(--space-5);
+}
+
+.pref-success-modal__btn {
+    padding: var(--space-2) var(--space-6);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.pref-success-modal__btn:hover {
+    background-color: var(--color-primary-dark);
+}

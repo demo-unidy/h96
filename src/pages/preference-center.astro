@@ -234,7 +234,7 @@ import Layout from '../layouts/Layout.astro';
         </u-newsletter-root>
     </main>
 
-    <!-- Modals -->
+    <!-- Unsubscribe Confirmation Modals -->
     <dialog id="modal-ns-with-prefs" class="pref-modal">
         <div class="pref-modal__content">
             <h3 class="pref-modal__title">Newsletter abbestellen?</h3>
@@ -244,8 +244,10 @@ import Layout from '../layouts/Layout.astro';
             </div>
             <div class="pref-modal__actions">
                 <button type="button" class="pref-modal__cancel" data-close-modal>Abbrechen</button>
-                <u-newsletter-toggle-subscription-button internal-name="ns_with_prefs" class-name="pref-modal__confirm">
-                </u-newsletter-toggle-subscription-button>
+                <u-newsletter-root>
+                    <u-newsletter-toggle-subscription-button internal-name="ns_with_prefs" class-name="pref-modal__confirm" data-unsubscribe-btn="ns_with_prefs">
+                    </u-newsletter-toggle-subscription-button>
+                </u-newsletter-root>
             </div>
         </div>
     </dialog>
@@ -259,20 +261,55 @@ import Layout from '../layouts/Layout.astro';
             </div>
             <div class="pref-modal__actions">
                 <button type="button" class="pref-modal__cancel" data-close-modal>Abbrechen</button>
-                <u-newsletter-toggle-subscription-button internal-name="ns_without_prefs" class-name="pref-modal__confirm">
-                </u-newsletter-toggle-subscription-button>
+                <u-newsletter-root>
+                    <u-newsletter-toggle-subscription-button internal-name="ns_without_prefs" class-name="pref-modal__confirm" data-unsubscribe-btn="ns_without_prefs">
+                    </u-newsletter-toggle-subscription-button>
+                </u-newsletter-root>
             </div>
+        </div>
+    </dialog>
+
+    <!-- Unsubscribe Success Modal -->
+    <dialog id="modal-unsubscribe-success" class="pref-success-modal">
+        <div class="pref-success-modal__content">
+            <div class="pref-success-modal__icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+            </div>
+            <h3 class="pref-success-modal__title">Newsletter abbestellt</h3>
+            <p class="pref-success-modal__text" id="success-modal-text">Du hast den Newsletter erfolgreich abbestellt.</p>
+            <button type="button" class="pref-success-modal__btn" data-close-success-modal>OK</button>
         </div>
     </dialog>
 
     <script is:inline>
         document.addEventListener('DOMContentLoaded', () => {
+            const successModal = document.getElementById('modal-unsubscribe-success');
+            const successText = document.getElementById('success-modal-text');
+
+            // Hide global flash message on this page (we use modals instead)
+            const style = document.createElement('style');
+            style.textContent = '.flash-message { display: none !important; }';
+            document.head.appendChild(style);
+
+            // Newsletter names for success messages
+            const newsletterNames = {
+                'ns_with_prefs': 'Hannover 96 Newsletter',
+                'ns_without_prefs': 'Allgemeinen Newsletter'
+            };
+
+            // Track which newsletter is being unsubscribed
+            let currentUnsubscribeNewsletter = null;
+
             // Open modal
             document.querySelectorAll('[data-open-modal]').forEach(button => {
                 button.addEventListener('click', () => {
                     const modalId = button.getAttribute('data-open-modal');
                     const modal = document.getElementById(modalId);
                     if (modal) {
+                        // Extract newsletter ID from modal ID (e.g., "modal-ns-with-prefs" -> "ns_with_prefs")
+                        currentUnsubscribeNewsletter = modalId.replace('modal-', '').replace(/-/g, '_');
                         modal.showModal();
                     }
                 });
@@ -284,27 +321,53 @@ import Layout from '../layouts/Layout.astro';
                     const modal = button.closest('dialog');
                     if (modal) {
                         modal.close();
+                        currentUnsubscribeNewsletter = null;
+                    }
+                });
+            });
+
+            // Close success modal
+            document.querySelectorAll('[data-close-success-modal]').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (successModal) {
+                        successModal.close();
                     }
                 });
             });
 
             // Close on backdrop click
-            document.querySelectorAll('.pref-modal').forEach(modal => {
+            document.querySelectorAll('.pref-modal, .pref-success-modal').forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                         modal.close();
+                        currentUnsubscribeNewsletter = null;
                     }
                 });
             });
 
-            // Close modal after unsubscribe action
-            document.querySelectorAll('.pref-modal u-newsletter-toggle-subscription-button').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const modal = btn.closest('dialog');
-                    if (modal) {
-                        setTimeout(() => modal.close(), 100);
+            // Use event delegation for unsubscribe buttons (SDK components)
+            document.addEventListener('click', (e) => {
+                const unsubscribeBtn = e.target.closest('u-newsletter-toggle-subscription-button');
+                if (unsubscribeBtn) {
+                    const modal = unsubscribeBtn.closest('dialog');
+                    if (modal && modal.classList.contains('pref-modal')) {
+                        const newsletterId = currentUnsubscribeNewsletter;
+                        const newsletterName = newsletterNames[newsletterId] || 'Newsletter';
+
+                        setTimeout(() => {
+                            modal.close();
+
+                            // Update success message and show success modal
+                            if (successText) {
+                                successText.textContent = `Du hast den ${newsletterName} erfolgreich abbestellt.`;
+                            }
+                            if (successModal) {
+                                successModal.showModal();
+                            }
+                            currentUnsubscribeNewsletter = null;
+                        }, 300);
                     }
-                });
+                }
             });
         });
     </script>

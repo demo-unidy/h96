@@ -221,4 +221,99 @@ import Layout from '../layouts/Layout.astro';
             </section>
         </u-newsletter-root>
     </main>
+
+    <!-- DOI Confirmation Modal (shown after non-logged-in user subscribes) -->
+    <dialog id="doi-modal" class="doi-modal">
+        <div class="doi-modal__content">
+            <div class="doi-modal__icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+            </div>
+            <h2 class="doi-modal__title">Vielen Dank für deine Anmeldung!</h2>
+            <p class="doi-modal__text">
+                Wir haben dir eine Bestätigungs-E-Mail gesendet.<br>
+                <strong>Bitte klicke auf den Link in der E-Mail</strong>, um deine Anmeldung abzuschließen.
+            </p>
+            <div class="doi-modal__hint">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <span>Keine E-Mail erhalten? Prüfe deinen Spam-Ordner.</span>
+            </div>
+            <div class="doi-modal__actions">
+                <button type="button" class="doi-modal__btn" data-close-doi-modal>Verstanden</button>
+            </div>
+        </div>
+    </dialog>
+
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            const doiModal = document.getElementById('doi-modal');
+            let wasLoggedIn = false;
+
+            // Check initial login state
+            const checkInitialState = () => {
+                const newsletterRoot = document.querySelector('u-newsletter-root');
+                if (newsletterRoot) {
+                    // Check if logged in state is visible
+                    const loggedInElement = document.querySelector('.action-bar-card--success');
+                    wasLoggedIn = loggedInElement && loggedInElement.offsetParent !== null;
+                }
+            };
+
+            // Observe for login state changes
+            const observeLoginState = () => {
+                const observer = new MutationObserver(() => {
+                    const loggedInElement = document.querySelector('.action-bar-card--success');
+                    const isLoggedIn = loggedInElement && loggedInElement.offsetParent !== null;
+
+                    // If user just logged in (state changed from not logged in to logged in)
+                    if (!wasLoggedIn && isLoggedIn) {
+                        // Show DOI modal
+                        if (doiModal) {
+                            doiModal.showModal();
+                        }
+                    }
+                    wasLoggedIn = isLoggedIn;
+                });
+
+                const newsletterRoot = document.querySelector('u-newsletter-root');
+                if (newsletterRoot) {
+                    observer.observe(newsletterRoot, {
+                        childList: true,
+                        subtree: true,
+                        attributes: true
+                    });
+                }
+            };
+
+            // Close DOI modal
+            document.querySelectorAll('[data-close-doi-modal]').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (doiModal) {
+                        doiModal.close();
+                    }
+                });
+            });
+
+            // Close on backdrop click
+            if (doiModal) {
+                doiModal.addEventListener('click', (e) => {
+                    if (e.target === doiModal) {
+                        doiModal.close();
+                    }
+                });
+            }
+
+            // Initialize
+            setTimeout(() => {
+                checkInitialState();
+                observeLoginState();
+            }, 100);
+        });
+    </script>
 </Layout>
