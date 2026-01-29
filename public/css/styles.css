@@ -1,24 +1,29 @@
 /* ===========================================
    Hannover 96 - Brand Styles
+   Based on Official Styleguide 2023
    =========================================== */
 
 /* ===========================================
    FONTS
-   Using Open Sans as Hannover 96 style font
+   Primary: Fago (commercial font)
+   Fallback: Trebuchet MS (system font per styleguide)
    =========================================== */
 
 /* ===========================================
    CSS Custom Properties / Variables
    =========================================== */
 :root {
-    /* Brand Colors - Hannover 96 */
-    --color-primary: #009640;
-    --color-primary-dark: #007a33;
-    --color-primary-light: #00b34d;
-    --color-primary-overlay: rgba(0, 150, 64, 0.75);
-    --color-primary-overlay-dark: rgba(0, 150, 64, 0.9);
-    --color-accent: #009640;
-    --color-accent-hover: #007a33;
+    /* Brand Colors - Hannover 96 (Official Styleguide 2023) */
+    /* Primary: Schwarz-Weiß-Grün */
+    --color-primary: #009D3A;           /* Grün - Pantone 355 C, RAL 6037 */
+    --color-primary-dark: #007a2e;
+    --color-primary-light: #00b344;
+    --color-primary-overlay: rgba(0, 157, 58, 0.75);
+    --color-primary-overlay-dark: rgba(0, 157, 58, 0.9);
+
+    /* Accent: Rot (das rote i-Tüpfelchen) */
+    --color-accent: #CD1013;            /* Rot - Pantone 1797 C, RAL 3020 */
+    --color-accent-hover: #b00e11;
 
     /* Neutral Colors */
     --color-white: #ffffff;
@@ -37,9 +42,9 @@
     --color-background-light: #f5f5f5;
     --color-background-muted: #eeeeee;
 
-    /* Typography */
-    --font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-    --font-family-heading: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    /* Typography - Fago is the official H96 font, Trebuchet MS is the designated fallback */
+    --font-family: 'Fago', 'Trebuchet MS', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+    --font-family-heading: 'Fago', 'Trebuchet MS', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
