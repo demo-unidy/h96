@@ -220,44 +220,164 @@
     text-transform: uppercase;
 }
 
-.ticket-card__type {
+.ticket-card__reference {
     font-size: var(--font-size-sm);
-    color: var(--color-primary);
-    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-light);
+    font-weight: var(--font-weight-medium);
 }
 
-.ticket-card__body {
+.ticket-card__details {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    margin-bottom: var(--space-5);
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
 }
 
 .ticket-card__detail {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-.detail-label {
+    gap: var(--space-2);
     font-size: var(--font-size-sm);
     color: var(--color-text-light);
 }
 
-.detail-value {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text);
+.ticket-card__detail svg {
+    flex-shrink: 0;
+    color: var(--color-primary);
 }
 
-.detail-value--highlight {
+.ticket-card__text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-4);
+}
+
+.ticket-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+.ticket-card__info-banner {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
     color: var(--color-primary);
-    font-size: var(--font-size-base);
 }
 
 .ticket-card__actions {
     display: flex;
+    gap: var(--space-2);
+}
+
+/* Export Buttons */
+.ticket-export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: none;
+}
+
+.ticket-export-btn--pdf {
+    background-color: #dc2626;
+    color: var(--color-white);
+}
+
+.ticket-export-btn--pdf:hover {
+    background-color: #b91c1c;
+}
+
+.ticket-export-btn--wallet {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+}
+
+.ticket-export-btn--wallet:hover {
+    background-color: #1f2937;
+}
+
+/* ===========================================
+   TICKET HISTORY GRID
+   =========================================== */
+.tickets-history-grid {
+    display: flex;
+    flex-direction: column;
     gap: var(--space-3);
+}
+
+.ticket-history-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4);
+    background-color: var(--color-background-light);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
+}
+
+.ticket-history-card:hover {
+    background-color: rgba(0, 150, 64, 0.08);
+}
+
+.ticket-history-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ticket-history-card__title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin: 0 0 var(--space-1);
+    text-transform: uppercase;
+}
+
+.ticket-history-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+}
+
+.ticket-history-card__divider {
+    color: var(--color-border);
+}
+
+.ticket-history-card__result {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    text-align: right;
+}
+
+/* Text Primary Helper */
+.text-primary {
+    color: var(--color-primary);
+}
+
+/* Empty State Compact */
+.empty-state--compact {
+    padding: var(--space-8);
+}
+
+.empty-state--compact .empty-state__icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: var(--space-4);
 }
 
 /* ===========================================
