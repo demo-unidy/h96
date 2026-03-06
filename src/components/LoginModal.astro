@@ -38,100 +38,61 @@
 
                 <!-- Step 2: Registration (new user) -->
                 <u-signin-step name="registration">
-                    <div style="display: none;">
-                        <u-registration-button for="email" class-name="login-submit">Konto erstellen</u-registration-button>
-                    </div>
+                    <u-registration-root id="registrationRoot" steps='["profile","password"]'>
+                        <u-error-message for="registration" class-name="form-error" style="margin-bottom:var(--space-4);"></u-error-message>
 
-                    <div class="login-form">
-                        <p class="login-info-text">Erstelle dein Konto</p>
-
-                        <!-- Email (read-only display) -->
-                        <div class="login-form__field">
-                            <label class="login-form__label">E-Mail</label>
-                            <u-field field="email" class-name="login-input" disabled></u-field>
-                        </div>
-
-                        <!-- Salutation -->
-                        <div class="login-form__field">
-                            <label class="login-form__label">Anrede *</label>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input type="radio" name="salutation" value="mr" required>
-                                    <span>Herr</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="salutation" value="ms" required>
-                                    <span>Frau</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="salutation" value="diverse" required>
-                                    <span>Divers</span>
-                                </label>
+                        <!-- Registration Step 1: Profile -->
+                        <u-registration-step name="profile">
+                            <div class="login-form">
+                                <p class="login-info-text">Erstelle dein Konto</p>
+                                <div class="login-form__field">
+                                    <label class="login-form__label">Anrede *</label>
+                                    <u-raw-field field="salutation" type="select" options='[{"value":"mr","label":"Herr"},{"value":"mrs","label":"Frau"},{"value":"diverse","label":"Divers"}]' class-name="login-input"></u-raw-field>
+                                </div>
+                                <div class="name-row">
+                                    <div class="login-form__field">
+                                        <label class="login-form__label">Vorname *</label>
+                                        <u-raw-field field="first_name" type="text" required placeholder="Max" class-name="login-input"></u-raw-field>
+                                    </div>
+                                    <div class="login-form__field">
+                                        <label class="login-form__label">Nachname</label>
+                                        <u-raw-field field="last_name" type="text" placeholder="Mustermann" class-name="login-input"></u-raw-field>
+                                    </div>
+                                </div>
+                                <u-submit-button class-name="login-submit">Weiter</u-submit-button>
                             </div>
-                        </div>
+                        </u-registration-step>
 
-                        <!-- Name fields -->
-                        <div class="name-row">
-                            <div class="login-form__field">
-                                <label class="login-form__label" for="regFirstName">Vorname *</label>
-                                <input
-                                    type="text"
-                                    id="regFirstName"
-                                    name="firstName"
-                                    class="login-input"
-                                    placeholder="Max"
-                                    required
-                                    autocomplete="given-name"
-                                >
+                        <!-- Registration Step 2: Password -->
+                        <u-registration-step name="password" requires-password>
+                            <div class="login-form">
+                                <div class="login-form__field">
+                                    <label class="login-form__label">Passwort *</label>
+                                    <u-raw-field
+                                        field="password"
+                                        type="password"
+                                        required
+                                        placeholder="Min. 8 Zeichen"
+                                        class-name="login-input"
+                                    ></u-raw-field>
+                                    <u-error-message for="password" class-name="form-error"></u-error-message>
+                                </div>
+                                <div class="login-form__field">
+                                    <label class="login-form__label">Passwort bestätigen *</label>
+                                    <u-raw-field
+                                        field="password_confirmation"
+                                        type="password"
+                                        required
+                                        placeholder="Passwort wiederholen"
+                                        class-name="login-input"
+                                    ></u-raw-field>
+                                </div>
+                                <div class="password-requirements">Min. 8 Zeichen, 1 Großbuchstabe, 1 Ziffer</div>
+                                <u-submit-button class-name="login-submit">Konto erstellen</u-submit-button>
                             </div>
-                            <div class="login-form__field">
-                                <label class="login-form__label" for="regLastName">Nachname *</label>
-                                <input
-                                    type="text"
-                                    id="regLastName"
-                                    name="lastName"
-                                    class="login-input"
-                                    placeholder="Mustermann"
-                                    required
-                                    autocomplete="family-name"
-                                >
-                            </div>
-                        </div>
+                        </u-registration-step>
 
-                        <!-- Password -->
-                        <div class="login-form__field">
-                            <label class="login-form__label" for="regPassword">Passwort *</label>
-                            <input
-                                type="password"
-                                id="regPassword"
-                                name="password"
-                                class="login-input"
-                                placeholder="Min. 8 Zeichen"
-                                minlength="8"
-                                required
-                                autocomplete="new-password"
-                            >
-                            <div class="password-requirements">Min. 8 Zeichen, 1 Großbuchstabe, 1 Ziffer</div>
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div class="login-form__field">
-                            <label class="login-form__label" for="regPasswordConfirm">Passwort bestätigen *</label>
-                            <input
-                                type="password"
-                                id="regPasswordConfirm"
-                                name="passwordConfirm"
-                                class="login-input"
-                                placeholder="Passwort wiederholen"
-                                required
-                                autocomplete="new-password"
-                            >
-                        </div>
-
-                        <div class="form-error" id="registrationError"></div>
-
-                        <button type="button" id="customRegisterBtn" class="login-submit" disabled>Konto erstellen</button>
-                    </div>
+                    </u-registration-root>
                 </u-signin-step>
 
                 <!-- Step 3: Verification (existing user) -->
@@ -211,7 +172,6 @@
 </div>
 
 <script is:inline>
-    // Login Modal Functions
     window.openLoginModal = function() {
         document.getElementById('loginModalOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -228,274 +188,19 @@
         }
     }
 
-    // Close modal on Escape key
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             window.closeLoginModal();
         }
     });
 
-    // Registration API configuration
-    const API_BASE_URL = 'https://hannover96.staging.unidy.de';
-    const API_KEY = 'b9671a31543ed2db7679511882ece8fcbd020f8ee996a3274026302a1834c82e';
-
-    let registrationToken = null;
-    let registrationEmail = null;
-
-    // API helper function
-    async function apiRequest(endpoint, method = 'GET', body = null, token = null) {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token || API_KEY}`
-        };
-        const options = {
-            method,
-            headers,
-            credentials: 'include'
-        };
-        if (body) {
-            options.body = JSON.stringify(body);
-        }
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
-        const data = await response.json().catch(() => ({}));
-        return { response, data };
-    }
-
-    // Create registration
-    async function createRegistration(email) {
-        const registrationUrl = new URL(window.location.href);
-        return apiRequest('/api/sdk/v1/registration', 'POST', {
-            email,
-            registration_url: registrationUrl.toString()
-        });
-    }
-
-    // Update registration
-    async function updateRegistration(data) {
-        return apiRequest('/api/sdk/v1/registration', 'PATCH', data, registrationToken);
-    }
-
-    // Finalize registration
-    async function finalizeRegistration() {
-        return apiRequest('/api/sdk/v1/registration/finalize', 'POST', {}, registrationToken);
-    }
-
-    // Password validation
-    function validatePassword(password) {
-        const hasMinLength = password.length >= 8;
-        const hasUppercase = /[A-Z]/.test(password);
-        const hasDigit = /\d/.test(password);
-        return hasMinLength && hasUppercase && hasDigit;
-    }
-
-    // Auth event listener and registration form handling
     document.addEventListener('DOMContentLoaded', function() {
-        const signInRoot = document.getElementById('signinRoot');
-
-        // Listen for auth events
-        signInRoot?.addEventListener('authEvent', (event) => {
-            console.log('Auth event:', event.detail);
+        document.getElementById('signinRoot')?.addEventListener('authEvent', function() {
             window.closeLoginModal();
         });
 
-        // Registration form elements
-        const salutationInputs = document.querySelectorAll('input[name="salutation"]');
-        const firstNameInput = document.getElementById('regFirstName');
-        const lastNameInput = document.getElementById('regLastName');
-        const passwordInput = document.getElementById('regPassword');
-        const passwordConfirmInput = document.getElementById('regPasswordConfirm');
-        const registerBtn = document.getElementById('customRegisterBtn');
-        const errorDiv = document.getElementById('registrationError');
-
-        // Form validation
-        function validateForm() {
-            const salutation = document.querySelector('input[name="salutation"]:checked');
-            const firstName = firstNameInput?.value.trim();
-            const lastName = lastNameInput?.value.trim();
-            const password = passwordInput?.value;
-            const passwordConfirm = passwordConfirmInput?.value;
-
-            const isValid = salutation &&
-                           firstName &&
-                           lastName &&
-                           validatePassword(password) &&
-                           password === passwordConfirm;
-
-            if (registerBtn) {
-                registerBtn.disabled = !isValid;
-            }
-            return isValid;
-        }
-
-        // Add input listeners for validation
-        [firstNameInput, lastNameInput, passwordInput, passwordConfirmInput].forEach(input => {
-            input?.addEventListener('input', validateForm);
+        document.getElementById('registrationRoot')?.addEventListener('registrationComplete', function() {
+            window.closeLoginModal();
         });
-        salutationInputs.forEach(input => {
-            input?.addEventListener('change', validateForm);
-        });
-
-        // Watch for step changes to capture email when entering registration step
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' || mutation.type === 'childList') {
-                    // Try to get email from the SDK's internal state
-                    const emailField = document.querySelector('u-email-field');
-                    if (emailField) {
-                        const emailInput = emailField.shadowRoot?.querySelector('input') ||
-                                          emailField.querySelector('input');
-                        if (emailInput && emailInput.value) {
-                            registrationEmail = emailInput.value;
-                        }
-                    }
-                }
-            });
-        });
-
-        if (signInRoot) {
-            observer.observe(signInRoot, {
-                attributes: true,
-                childList: true,
-                subtree: true,
-                attributeFilter: ['style', 'class']
-            });
-        }
-
-        // Registration button click handler
-        registerBtn?.addEventListener('click', async function() {
-            if (!validateForm()) return;
-
-            const salutation = document.querySelector('input[name="salutation"]:checked')?.value;
-            const firstName = firstNameInput.value.trim();
-            const lastName = lastNameInput.value.trim();
-            const password = passwordInput.value;
-            const passwordConfirm = passwordConfirmInput.value;
-
-            // Get email from the SDK
-            const emailField = document.querySelector('u-email-field');
-            const emailInput = emailField?.shadowRoot?.querySelector('input') ||
-                              emailField?.querySelector('input');
-            const email = registrationEmail || emailInput?.value;
-
-            if (!email) {
-                showError('E-Mail nicht gefunden. Bitte gehe zurück und gib deine E-Mail ein.');
-                return;
-            }
-
-            if (password !== passwordConfirm) {
-                showError('Passwörter stimmen nicht überein.');
-                return;
-            }
-
-            // Disable button and show loading
-            registerBtn.disabled = true;
-            registerBtn.textContent = 'Konto wird erstellt...';
-            registerBtn.classList.add('loading');
-            clearError();
-
-            try {
-                // Step 1: Create registration
-                const { response: createResp, data: createData } = await createRegistration(email);
-
-                if (!createResp.ok) {
-                    if (createData.error === 'email_already_registered') {
-                        showError('Diese E-Mail ist bereits registriert. Bitte melde dich an.');
-                    } else {
-                        showError(createData.message || 'Registrierung konnte nicht gestartet werden.');
-                    }
-                    resetButton();
-                    return;
-                }
-
-                registrationToken = createData.registration_access_token;
-
-                // Step 2: Update with password and profile data
-                const updatePayload = {
-                    password: password,
-                    registration_profile_data: {
-                        salutation: salutation,
-                        first_name: firstName,
-                        last_name: lastName
-                    }
-                };
-
-                const { response: updateResp, data: updateData } = await updateRegistration(updatePayload);
-
-                if (!updateResp.ok) {
-                    showError(updateData.message || 'Profildaten konnten nicht gespeichert werden.');
-                    resetButton();
-                    return;
-                }
-
-                // Step 3: Finalize registration
-                const { response: finalResp, data: finalData } = await finalizeRegistration();
-
-                if (!finalResp.ok) {
-                    showError(finalData.message || 'Registrierung konnte nicht abgeschlossen werden.');
-                    resetButton();
-                    return;
-                }
-
-                // Success - show confirmation
-                registerBtn.textContent = 'Erfolgreich!';
-                registerBtn.classList.remove('loading');
-
-                // Show success message
-                showSuccess('Konto erstellt! Bitte überprüfe deine E-Mail, um dein Konto zu bestätigen.');
-
-                // Reset form after delay
-                setTimeout(() => {
-                    resetRegistrationForm();
-                    window.closeLoginModal();
-                }, 3000);
-
-            } catch (error) {
-                console.error('Registration error:', error);
-                showError('Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
-                resetButton();
-            }
-        });
-
-        function showError(message) {
-            if (errorDiv) {
-                errorDiv.textContent = message;
-                errorDiv.classList.add('visible');
-            }
-        }
-
-        function showSuccess(message) {
-            if (errorDiv) {
-                errorDiv.textContent = message;
-                errorDiv.classList.remove('error');
-                errorDiv.classList.add('success', 'visible');
-            }
-        }
-
-        function clearError() {
-            if (errorDiv) {
-                errorDiv.textContent = '';
-                errorDiv.classList.remove('visible', 'success');
-            }
-        }
-
-        function resetButton() {
-            if (registerBtn) {
-                registerBtn.disabled = false;
-                registerBtn.textContent = 'Konto erstellen';
-                registerBtn.classList.remove('loading');
-            }
-        }
-
-        function resetRegistrationForm() {
-            salutationInputs.forEach(input => input.checked = false);
-            if (firstNameInput) firstNameInput.value = '';
-            if (lastNameInput) lastNameInput.value = '';
-            if (passwordInput) passwordInput.value = '';
-            if (passwordConfirmInput) passwordConfirmInput.value = '';
-            clearError();
-            resetButton();
-            registrationToken = null;
-            registrationEmail = null;
-        }
     });
 </script>

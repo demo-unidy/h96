@@ -47,9 +47,25 @@ const {
         <link rel="stylesheet" href={`/css/${style}.css`} />
     ))}
 
-    <!-- Unidy SDK -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@unidy.io/sdk@1.3.1/dist/sdk/sdk.esm.js"></script>
+    <!-- Unidy SDK styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unidy.io/sdk@1.3.1/dist/sdk/sdk.css">
+
+    <!-- Unidy SDK: register web components and fix email propagation to registration store -->
+    <script>
+      import { defineCustomElements } from '@unidy.io/sdk/loader';
+      import { onAuthChange, registrationStore, registrationState } from '@unidy.io/sdk';
+
+      defineCustomElements();
+
+      // Workaround for SDK 1.3.1: always sync auth email → registration store so a stale
+      // registrationState.email (e.g. overwritten by auto-resume from an old flow) doesn't
+      // prevent the user's current email from being sent to the backend.
+      onAuthChange('email', (email) => {
+        if (email) {
+          registrationStore.setEmail(email);
+        }
+      });
+    </script>
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/assets/images/h96-logo.svg">
@@ -64,6 +80,12 @@ const {
             locale="de"
             redirect-url={redirectUrl}
         ></u-config>
+      <!-- u-config
+        base-url="http://localhost:3000"
+        api-key="public-newsletter-api-key"
+        locale="de"
+        redirect-url={redirectUrl}
+      ></u-config -->
     )}
 
     <Header activePage={activePage} />
